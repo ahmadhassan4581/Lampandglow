@@ -1,0 +1,180 @@
+export default function ReviewsSection({
+  products,
+  reviewForm,
+  reviewSortBy,
+  setReviewForm,
+  setReviewSortBy,
+  sortedReviews,
+  handleSubmitReview,
+}) {
+  return (
+    <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6">
+        <div>
+          <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-stone-900">
+            Reviews &amp; Ratings
+          </h1>
+          <p className="mt-1 text-xs sm:text-sm text-stone-600 max-w-xl">
+            Share your experience with Lamp &amp; Glow products and explore what other customers
+            are saying.
+          </p>
+        </div>
+        <div className="flex items-center gap-2 text-xs">
+          <span className="text-stone-600">Sort by:</span>
+          <select
+            value={reviewSortBy}
+            onChange={(e) => setReviewSortBy(e.target.value)}
+            className="rounded-full border border-stone-300 bg-white px-3 py-1 text-xs text-stone-800 focus:outline-none focus:ring-1 focus:ring-amber-500"
+          >
+            <option value="recent">Most recent</option>
+            <option value="rating">Highest rating</option>
+          </select>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-[1.3fr,1.7fr] gap-6 items-start">
+        <form
+          onSubmit={handleSubmitReview}
+          className="rounded-2xl border border-stone-200 bg-white p-4 sm:p-5 space-y-3 text-xs sm:text-sm"
+        >
+          <h2 className="text-sm font-semibold text-stone-900">Leave a Review</h2>
+          <div>
+            <label className="block text-[11px] font-medium text-stone-600 mb-1" htmlFor="productId">
+              Product
+            </label>
+            <select
+              id="productId"
+              value={reviewForm.productId}
+              onChange={(e) =>
+                setReviewForm((prev) => ({
+                  ...prev,
+                  productId: Number(e.target.value),
+                }))
+              }
+              className="w-full rounded-lg border border-stone-300 bg-stone-50 px-3 py-2 text-sm text-stone-800 focus:outline-none focus:ring-1 focus:ring-amber-500"
+            >
+              {products.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label
+                className="block text-[11px] font-medium text-stone-600 mb-1"
+                htmlFor="reviewerName"
+              >
+                Your name
+              </label>
+              <input
+                id="reviewerName"
+                type="text"
+                value={reviewForm.name}
+                onChange={(e) =>
+                  setReviewForm((prev) => ({
+                    ...prev,
+                    name: e.target.value,
+                  }))
+                }
+                className="w-full rounded-lg border border-stone-300 bg-stone-50 px-3 py-2 text-sm text-stone-800 focus:outline-none focus:ring-1 focus:ring-amber-500"
+              />
+            </div>
+            <div>
+              <label className="block text-[11px] font-medium text-stone-600 mb-1" htmlFor="rating">
+                Rating
+              </label>
+              <select
+                id="rating"
+                value={reviewForm.rating}
+                onChange={(e) =>
+                  setReviewForm((prev) => ({
+                    ...prev,
+                    rating: Number(e.target.value),
+                  }))
+                }
+                className="w-full rounded-lg border border-stone-300 bg-stone-50 px-3 py-2 text-sm text-stone-800 focus:outline-none focus:ring-1 focus:ring-amber-500"
+              >
+                {[5, 4, 3, 2, 1].map((value) => (
+                  <option key={value} value={value}>
+                    {value} star{value > 1 ? 's' : ''}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div>
+            <label className="block text-[11px] font-medium text-stone-600 mb-1" htmlFor="comment">
+              Your review
+            </label>
+            <textarea
+              id="comment"
+              rows={4}
+              value={reviewForm.comment}
+              onChange={(e) =>
+                setReviewForm((prev) => ({
+                  ...prev,
+                  comment: e.target.value,
+                }))
+              }
+              className="w-full rounded-lg border border-stone-300 bg-stone-50 px-3 py-2 text-sm text-stone-800 focus:outline-none focus:ring-1 focus:ring-amber-500"
+            />
+          </div>
+          <button
+            type="submit"
+            className="mt-1 inline-flex items-center justify-center rounded-full bg-amber-600 px-4 py-2 text-xs font-semibold text-white hover:bg-amber-700"
+          >
+            Submit Review
+          </button>
+          <p className="text-[11px] text-stone-500">
+            Reviews are stored locally in your browser for this demo.
+          </p>
+        </form>
+
+        <div className="space-y-3">
+          {sortedReviews.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-stone-300 bg-white p-5 text-xs sm:text-sm text-stone-600">
+              <p>No reviews yet. Be the first to share your Lamp &amp; Glow experience.</p>
+            </div>
+          ) : (
+            <ul className="space-y-3">
+              {sortedReviews.map((review) => {
+                const product = products.find((p) => p.id === review.productId)
+                return (
+                  <li
+                    key={review.id}
+                    className="rounded-2xl border border-stone-200 bg-white p-4 text-xs sm:text-sm flex flex-col gap-1.5"
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <div>
+                        <p className="text-sm font-semibold text-stone-900">
+                          {product?.name ?? 'Lamp & Glow product'}
+                        </p>
+                        <p className="text-[11px] text-stone-500">by {review.name || 'Anonymous'}</p>
+                      </div>
+                      <div className="text-right text-[11px] text-stone-500">
+                        <div className="text-amber-500">
+                          {'★'.repeat(review.rating)}
+                          <span className="text-stone-300">{'★'.repeat(5 - review.rating)}</span>
+                        </div>
+                        <p>
+                          {new Date(review.createdAt).toLocaleDateString(undefined, {
+                            month: 'short',
+                            day: 'numeric',
+                            year: 'numeric',
+                          })}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="text-xs sm:text-sm text-stone-700">{review.comment}</p>
+                  </li>
+                )
+              })}
+            </ul>
+          )}
+        </div>
+      </div>
+    </section>
+  )
+}

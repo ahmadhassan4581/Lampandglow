@@ -1,0 +1,412 @@
+import { useEffect, useMemo, useState } from 'react'
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import Header from './components/Header.jsx'
+import Footer from './components/Footer.jsx'
+import ProductDetail from './pages/ProductDetail.jsx'
+import BlogsList from './pages/BlogsList.jsx'
+import BlogDetail from './pages/BlogDetail.jsx'
+import WishlistPage from './pages/WishlistPage.jsx'
+import ReelsPage from './pages/ReelsPage.jsx'
+
+import HomeSection from './sections/HomeSection.jsx'
+import CategoriesSection from './sections/CategoriesSection.jsx'
+import ProductsSection from './sections/ProductsSection.jsx'
+import CartSection from './sections/CartSection.jsx'
+import ProfileSection from './sections/ProfileSection.jsx'
+import ReviewsSection from './sections/ReviewsSection.jsx'
+
+import { PRODUCTS } from './data/products.js'
+import { BLOGS } from './data/blogs.js'
+import { CATEGORIES } from './data/categories.js'
+import { REELS } from './data/reels.js'
+import { TESTIMONIALS } from './data/testimonials.js'
+
+function App() {
+  const navigate = useNavigate()
+  const location = useLocation()
+  const [activeSection, setActiveSection] = useState('home')
+  const [theme, setTheme] = useState('light')
+  const [cart, setCart] = useState([])
+  const [selectedCategory, setSelectedCategory] = useState('All')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
+  const [profile, setProfile] = useState({
+    name: 'Guest',
+    email: 'guest@example.com',
+    address: '',
+  })
+  const [orders] = useState([
+    {
+      id: 'ORD-1023',
+      date: '2025-11-18',
+      total: 189.99,
+      items: ['Amber Oak Bedside Lamp', 'Warm Glow Wall Shelf'],
+    },
+    {
+      id: 'ORD-1017',
+      date: '2025-10-02',
+      total: 249.0,
+      items: ['Rustic Evening Coffee Table'],
+    },
+  ])
+
+  const [reviews, setReviews] = useState([
+    {
+      id: 1,
+      productId: 1,
+      name: 'Hassan',
+      rating: 5,
+      comment: 'Perfect bedside light, warm and not too bright.',
+      createdAt: new Date('2025-10-15').toISOString(),
+    },
+    {
+      id: 2,
+      productId: 3,
+      name: 'Maria',
+      rating: 4,
+      comment: 'Love the rustic look of the coffee table.',
+      createdAt: new Date('2025-09-21').toISOString(),
+    },
+  ])
+  const [reviewForm, setReviewForm] = useState({
+    productId: PRODUCTS[0]?.id ?? 1,
+    name: '',
+    rating: 5,
+    comment: '',
+  })
+  const [reviewSortBy, setReviewSortBy] = useState('recent')
+
+  const cartItemsCount = useMemo(
+    () => cart.reduce((sum, item) => sum + item.quantity, 0),
+    [cart],
+  )
+
+  const cartTotal = useMemo(
+    () => cart.reduce((sum, item) => sum + item.quantity * item.product.price, 0),
+    [cart],
+  )
+
+  const filteredProducts = useMemo(() => {
+    const base = selectedCategory === 'All'
+      ? PRODUCTS
+      : PRODUCTS.filter((p) => p.category === selectedCategory)
+
+    const q = searchQuery.trim().toLowerCase()
+    if (!q) return base
+    return base.filter((p) => {
+      const name = p.name.toLowerCase()
+      const category = p.category.toLowerCase()
+      return name.includes(q) || category.includes(q)
+    })
+  }, [searchQuery, selectedCategory])
+
+  const productAverageRating = useMemo(() => {
+    const map = {}
+    reviews.forEach((r) => {
+      if (!map[r.productId]) {
+        map[r.productId] = { total: 0, count: 0 }
+      }
+      map[r.productId].total += r.rating
+      map[r.productId].count += 1
+    })
+    const averages = {}
+    Object.keys(map).forEach((id) => {
+      averages[id] = map[id].total / map[id].count
+    })
+    return averages
+  }, [reviews])
+
+  const sortedReviews = useMemo(() => {
+    const result = [...reviews]
+    if (reviewSortBy === 'rating') {
+      result.sort((a, b) => b.rating - a.rating)
+    } else {
+      result.sort(
+        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+      )
+    }
+    return result
+  }, [reviews, reviewSortBy])
+
+  useEffect(() => {
+    if (location.pathname === '/' && activeSection === 'blogs') {
+      setActiveSection('home')
+    }
+
+    if (location.pathname === '/' && activeSection === 'reels') {
+      setActiveSection('home')
+    }
+
+    if (
+      (location.pathname === '/blogs' || location.pathname.startsWith('/blog/')) &&
+      activeSection !== 'blogs'
+    ) {
+      setActiveSection('blogs')
+    }
+
+    if (location.pathname === '/reels' && activeSection !== 'reels') {
+      setActiveSection('reels')
+    }
+  }, [activeSection, location.pathname])
+
+  function handleAddToCart(product) {
+    setCart((prev) => {
+      const existing = prev.find((item) => item.product.id === product.id)
+      if (existing) {
+        return prev.map((item) =>
+          item.product.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item,
+        )
+      }
+      return [...prev, { product, quantity: 1 }]
+    })
+  }
+
+  function handleUpdateCartQuantity(productId, quantity) {
+    setCart((prev) =>
+      prev
+        .map((item) =>
+          item.product.id === productId ? { ...item, quantity } : item,
+        )
+        .filter((item) => item.quantity > 0),
+    )
+  }
+
+  function handleRemoveFromCart(productId) {
+    setCart((prev) => prev.filter((item) => item.product.id !== productId))
+  }
+
+  function handleSubmitReview(e) {
+    e.preventDefault()
+    if (!reviewForm.name.trim() || !reviewForm.comment.trim()) return
+
+    const newReview = {
+      id: reviews.length + 1,
+      productId: Number(reviewForm.productId),
+      name: reviewForm.name.trim(),
+      rating: Number(reviewForm.rating),
+      comment: reviewForm.comment.trim(),
+      createdAt: new Date().toISOString(),
+    }
+
+    setReviews((prev) => [newReview, ...prev])
+    setReviewForm((prev) => ({
+      ...prev,
+      name: '',
+      comment: '',
+    }))
+  }
+
+  function handleProfileChange(field, value) {
+    setProfile((prev) => ({ ...prev, [field]: value }))
+  }
+
+  function handleNavigate(section) {
+    if (section === 'blogs') {
+      navigate('/blogs')
+      setActiveSection('blogs')
+      setMobileNavOpen(false)
+      return
+    }
+
+    if (section === 'reels') {
+      navigate('/reels')
+      setActiveSection('reels')
+      setMobileNavOpen(false)
+      return
+    }
+
+    if (location.pathname !== '/') {
+      navigate('/')
+    }
+    setActiveSection(section)
+    setMobileNavOpen(false)
+  }
+
+  const heroSlides = useMemo(
+    () => [
+      {
+        id: 'slide-1',
+        image:
+          'https://images.pexels.com/photos/8132705/pexels-photo-8132705.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        alt: 'Wooden lamp on bedside table',
+        badge: 'New arrivals',
+        title: 'Warm wooden decor that makes every room glow',
+        subtitle:
+          'Hand-finished lamps, tables, and decor made from sustainably sourced wood—designed for a soft, cozy ambience.',
+        primaryLabel: 'Shop Products',
+        primaryAction: { type: 'section', value: 'products' },
+        secondaryLabel: 'Browse Categories',
+        secondaryAction: { type: 'section', value: 'categories' },
+      },
+      {
+        id: 'slide-2',
+        image:
+          'https://images.pexels.com/photos/1128114/pexels-photo-1128114.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        alt: 'Desk lamp warm glow',
+        badge: 'Best sellers',
+        title: 'The glow your desk deserves',
+        subtitle:
+          'Explore our most-loved wooden lamps—crafted to feel premium, look timeless, and light your space beautifully.',
+        primaryLabel: 'Explore Best Sellers',
+        primaryAction: { type: 'section', value: 'products' },
+        secondaryLabel: 'Read Our Blog',
+        secondaryAction: { type: 'section', value: 'blogs' },
+      },
+      {
+        id: 'slide-3',
+        image:
+          'https://images.pexels.com/photos/3965520/pexels-photo-3965520.jpeg?auto=compress&cs=tinysrgb&w=1600',
+        alt: 'Wooden furniture in living room',
+        badge: 'Handcrafted',
+        title: 'Build a calm, cozy home',
+        subtitle:
+          'From side tables to shelves, create warmth with natural textures and soft lighting—one piece at a time.',
+        primaryLabel: 'Shop Collection',
+        primaryAction: { type: 'section', value: 'categories' },
+        secondaryLabel: 'View Reviews',
+        secondaryAction: { type: 'section', value: 'reviews' },
+      },
+    ],
+    [],
+  )
+
+  function handleHeroAction(action) {
+    if (!action) return
+    if (action.type === 'section') {
+      handleNavigate(action.value)
+    }
+  }
+
+  function navigateToWishlist() {
+    navigate('/wishlist')
+    setMobileNavOpen(false)
+  }
+
+  function toggleTheme() {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
+  }
+
+  return (
+    <div
+      className={
+        theme === 'dark'
+          ? 'min-h-screen bg-stone-950 text-stone-100 flex flex-col'
+          : 'min-h-screen bg-stone-50 text-stone-900 flex flex-col'
+      }
+    >
+      {/* Header */}
+      <Header
+        activeSection={activeSection}
+        cartItemsCount={cartItemsCount}
+        handleNavigate={handleNavigate}
+        mobileNavOpen={mobileNavOpen}
+        navigateToWishlist={navigateToWishlist}
+        products={PRODUCTS}
+        searchQuery={searchQuery}
+        setMobileNavOpen={setMobileNavOpen}
+        setSearchQuery={setSearchQuery}
+        theme={theme}
+        toggleTheme={toggleTheme}
+      />
+
+      {/* Main content */}
+      <main className={theme === 'dark' ? 'flex-1 bg-stone-50 text-stone-900 pt-32 md:pt-20' : 'flex-1 pt-32 md:pt-20'}>
+        <Routes>
+          <Route
+            path="/"
+            element={(
+              <>
+                {activeSection === 'home' && (
+                  <HomeSection
+                    heroSlides={heroSlides}
+                    onHeroAction={handleHeroAction}
+                    products={PRODUCTS}
+                    categories={CATEGORIES}
+                    testimonials={TESTIMONIALS}
+                    onViewAllCategories={() => handleNavigate('categories')}
+                    onPickCategory={(categoryId) => {
+                      setSelectedCategory(categoryId)
+                      handleNavigate('products')
+                    }}
+                    onViewAllProducts={() => handleNavigate('products')}
+                  />
+                )}
+
+                {activeSection === 'categories' && (
+                  <CategoriesSection
+                    categories={CATEGORIES}
+                    onGoToProducts={() => handleNavigate('products')}
+                    onCategorySelect={(categoryId) => {
+                      setSelectedCategory(categoryId)
+                      handleNavigate('products')
+                    }}
+                  />
+                )}
+
+                {activeSection === 'products' && (
+                  <ProductsSection
+                    categories={CATEGORIES}
+                    filteredProducts={filteredProducts}
+                    productAverageRating={productAverageRating}
+                    selectedCategory={selectedCategory}
+                    setSelectedCategory={setSelectedCategory}
+                    handleAddToCart={handleAddToCart}
+                    handleNavigate={handleNavigate}
+                    setReviewForm={setReviewForm}
+                  />
+                )}
+
+                {activeSection === 'cart' && (
+                  <CartSection
+                    cart={cart}
+                    cartItemsCount={cartItemsCount}
+                    cartTotal={cartTotal}
+                    handleNavigate={handleNavigate}
+                    handleRemoveFromCart={handleRemoveFromCart}
+                    handleUpdateCartQuantity={handleUpdateCartQuantity}
+                  />
+                )}
+
+                {activeSection === 'profile' && (
+                  <ProfileSection
+                    orders={orders}
+                    profile={profile}
+                    handleProfileChange={handleProfileChange}
+                  />
+                )}
+
+                {activeSection === 'reviews' && (
+                  <ReviewsSection
+                    products={PRODUCTS}
+                    reviewForm={reviewForm}
+                    reviewSortBy={reviewSortBy}
+                    setReviewForm={setReviewForm}
+                    setReviewSortBy={setReviewSortBy}
+                    sortedReviews={sortedReviews}
+                    handleSubmitReview={handleSubmitReview}
+                  />
+                )}
+              </>
+            )}
+          />
+          <Route path="/blogs" element={<BlogsList blogs={BLOGS} />} />
+          <Route path="/blog/:id" element={<BlogDetail blogs={BLOGS} />} />
+          <Route path="/reels" element={<ReelsPage reels={REELS} />} />
+          <Route path="/wishlist" element={<WishlistPage />} />
+          <Route
+            path="/product/:id"
+            element={(
+              <ProductDetail products={PRODUCTS} onAddToCart={handleAddToCart} reviews={reviews} />
+            )}
+          />
+        </Routes>
+      </main>
+
+      <Footer />
+    </div>
+  )
+}
+
+export default App

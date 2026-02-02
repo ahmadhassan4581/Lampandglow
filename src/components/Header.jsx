@@ -1,5 +1,6 @@
 import { useMemo, useState, useEffect } from 'react'
 import { FaHeart, FaSearch, FaShoppingCart, FaUserAlt } from 'react-icons/fa'
+import { Moon, Sun } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import logoPng from '../assets/logo.png'
 
@@ -198,14 +199,18 @@ export default function Header({
             type="button"
             onClick={toggleTheme}
             className={classNames(
-              'hidden sm:inline-flex h-10 items-center justify-center rounded-full border px-4 text-xs font-semibold',
+              'hidden sm:inline-flex h-10 w-10 items-center justify-center rounded-full border',
               theme === 'dark'
                 ? 'border-white/15 bg-white/5 text-stone-100 hover:bg-white/10'
                 : 'border-stone-200 bg-white text-stone-700 hover:bg-stone-50',
             )}
             aria-label="Toggle theme"
           >
-            {theme === 'dark' ? 'Light' : 'Dark'}
+            {theme === 'dark' ? (
+              <Sun className="h-4 w-4" />
+            ) : (
+              <Moon className="h-4 w-4" />
+            )}
           </button>
           <button
             onClick={() => handleNavigate('profile')}

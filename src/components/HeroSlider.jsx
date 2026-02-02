@@ -34,19 +34,12 @@ function SliderArrow({ className, style, onClick, direction, edgeOffset }) {
 
       <span
         aria-hidden
-        className="
-          inline-flex h-14 w-14 items-center justify-center
-          rounded-full
-          bg-black/50 text-white
-          ring-1 ring-white/30
-          backdrop-blur
-          shadow-lg
-        "
+        className="inline-flex items-center justify-center text-white drop-shadow"
       >
         {isNext ? (
-          <ChevronRight className="h-6 w-6" />
+          <ChevronRight className="h-8 w-8" />
         ) : (
-          <ChevronLeft className="h-6 w-6" />
+          <ChevronLeft className="h-8 w-8" />
         )}
       </span>
     </button>

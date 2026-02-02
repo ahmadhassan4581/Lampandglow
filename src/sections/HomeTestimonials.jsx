@@ -4,7 +4,7 @@ export default function HomeTestimonials({ testimonials }) {
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-6">
           <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-stone-900">
-            Loved by warm-light seekers
+            Happy Customers
           </h2>
           <p className="text-xs sm:text-sm text-stone-600">
             Hear from customers who brought Lamp &amp; Glow pieces into their homes.

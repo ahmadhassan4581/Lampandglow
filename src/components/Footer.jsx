@@ -180,7 +180,7 @@ export default function Footer() {
 
       <div className="bg-white border-t border-stone-200">
         <div className="max-w-none mx-auto px-0 py-4 text-center text-xs text-stone-700">
-          © {new Date().getFullYear()} Lamp And Glow. Powered By WORKWOX Private Limited.
+          © {new Date().getFullYear()} All rights reserved by Lampandglow.
         </div>
       </div>
 

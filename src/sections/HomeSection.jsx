@@ -15,7 +15,7 @@ export default function HomeSection({
   onViewAllProducts,
 }) {
   return (
-    <>
+    <section className="bg-white">
       <HeroSlider slides={heroSlides} onPrimaryAction={onHeroAction} />
 
       <ProductSlider products={products} />
@@ -29,6 +29,6 @@ export default function HomeSection({
       <HomeFeaturedProducts products={products} onViewAll={onViewAllProducts} />
 
       <HomeTestimonials testimonials={testimonials} />
-    </>
+    </section>
   )
 }

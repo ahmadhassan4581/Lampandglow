@@ -56,7 +56,7 @@ export default function HomeFeaturedProducts({ products, onViewAll }) {
               <Link
                 key={product.id}
                 to={`/product/${product.id}`}
-                className="group block overflow-hidden rounded-3xl bg-stone-50 ring-1 ring-stone-200 shadow-sm"
+                className="group block overflow-hidden rounded-3xl bg-stone-50 ring-1 ring-stone-200 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:ring-amber-200/70 motion-reduce:transform-none motion-reduce:transition-none"
               >
                 <div className="relative aspect-[3/4] overflow-hidden bg-stone-100">
                   {discountPercent !== null ? (
@@ -64,7 +64,11 @@ export default function HomeFeaturedProducts({ products, onViewAll }) {
                       -{discountPercent}%
                     </span>
                   ) : null}
-                  <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transform-none"
+                  />
                 </div>
 
                 <div className="px-4 pt-4 pb-3">

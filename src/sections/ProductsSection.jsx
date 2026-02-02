@@ -89,7 +89,7 @@ export default function ProductsSection({
           return (
             <article
               key={product.id}
-              className="group flex flex-col overflow-hidden rounded-3xl bg-stone-50 ring-1 ring-stone-200 shadow-sm"
+              className="group flex flex-col overflow-hidden rounded-3xl bg-stone-50 ring-1 ring-stone-200 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:ring-amber-200/70 motion-reduce:transform-none motion-reduce:transition-none"
             >
               <Link to={`/product/${product.id}`} className="group block">
                 <div className="relative aspect-[3/4] overflow-hidden bg-stone-100">
@@ -101,7 +101,7 @@ export default function ProductsSection({
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transform-none"
                   />
 
                   {avg ? (
@@ -130,7 +130,7 @@ export default function ProductsSection({
               <div className="relative z-20 mt-2 px-4 pb-4 flex items-center justify-between gap-2">
                 <button
                   onClick={() => handleAddToCart(product)}
-                  className="inline-flex flex-1 items-center justify-center rounded-full bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-700"
+                  className="inline-flex flex-1 items-center justify-center rounded-full bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white transition-all duration-200 hover:bg-amber-700 hover:shadow-sm active:scale-[0.98] motion-reduce:transform-none"
                 >
                   Add to Cart
                 </button>
@@ -142,7 +142,7 @@ export default function ProductsSection({
                     }))
                     handleNavigate('reviews')
                   }}
-                  className="inline-flex items-center justify-center rounded-full border border-stone-300 bg-white px-3 py-1.5 text-[11px] font-medium text-stone-700 hover:bg-stone-50"
+                  className="inline-flex items-center justify-center rounded-full border border-stone-300 bg-white px-3 py-1.5 text-[11px] font-medium text-stone-700 transition-all duration-200 hover:bg-stone-50 hover:shadow-sm active:scale-[0.98] motion-reduce:transform-none"
                 >
                   View Reviews
                 </button>

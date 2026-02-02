@@ -117,16 +117,28 @@ export default function Header({
             theme === 'dark' ? 'text-stone-200' : 'text-stone-700',
           )}
         >
-          <button onClick={() => handleNavigate('categories')} className="hover:text-amber-700 transition-colors">
+          <button
+            onClick={() => handleNavigate('categories')}
+            className="transition-all duration-200 hover:text-amber-700 hover:-translate-y-0.5 motion-reduce:transform-none"
+          >
             COLLECTION
           </button>
-          <button onClick={() => handleNavigate('products')} className="hover:text-amber-700 transition-colors">
+          <button
+            onClick={() => handleNavigate('products')}
+            className="transition-all duration-200 hover:text-amber-700 hover:-translate-y-0.5 motion-reduce:transform-none"
+          >
             PRODUCTS
           </button>
-          <button onClick={() => handleNavigate('blogs')} className="hover:text-amber-700 transition-colors">
+          <button
+            onClick={() => handleNavigate('blogs')}
+            className="transition-all duration-200 hover:text-amber-700 hover:-translate-y-0.5 motion-reduce:transform-none"
+          >
             BLOG
           </button>
-          <button onClick={() => handleNavigate('reels')} className="hover:text-amber-700 transition-colors">
+          <button
+            onClick={() => handleNavigate('reels')}
+            className="transition-all duration-200 hover:text-amber-700 hover:-translate-y-0.5 motion-reduce:transform-none"
+          >
             REELS
           </button>
         </nav>
@@ -198,7 +210,7 @@ export default function Header({
           <button
             onClick={() => handleNavigate('profile')}
             className={classNames(
-              'inline-flex h-10 w-10 items-center justify-center rounded-full border',
+              'inline-flex h-10 w-10 items-center justify-center rounded-full border transition-transform duration-200 hover:scale-105 active:scale-[0.98] motion-reduce:transform-none',
               theme === 'dark'
                 ? 'border-white/15 bg-white/5 text-stone-100 hover:text-amber-300 hover:bg-white/10'
                 : 'border-stone-200 bg-white text-stone-700 hover:text-amber-700 hover:bg-stone-50',
@@ -210,7 +222,7 @@ export default function Header({
           <button
             onClick={navigateToWishlist}
             className={classNames(
-              'inline-flex h-10 w-10 items-center justify-center rounded-full border',
+              'inline-flex h-10 w-10 items-center justify-center rounded-full border transition-transform duration-200 hover:scale-105 active:scale-[0.98] motion-reduce:transform-none',
               theme === 'dark'
                 ? 'border-white/15 bg-white/5 text-stone-100 hover:text-amber-300 hover:bg-white/10'
                 : 'border-stone-200 bg-white text-stone-700 hover:text-amber-700 hover:bg-stone-50',
@@ -222,7 +234,7 @@ export default function Header({
           <button
             onClick={() => handleNavigate('cart')}
             className={classNames(
-              'relative inline-flex h-10 w-10 items-center justify-center rounded-full border',
+              'relative inline-flex h-10 w-10 items-center justify-center rounded-full border transition-transform duration-200 hover:scale-105 active:scale-[0.98] motion-reduce:transform-none',
               theme === 'dark'
                 ? 'border-white/15 bg-white/5 text-stone-100 hover:text-amber-300 hover:bg-white/10'
                 : 'border-stone-200 bg-white text-stone-700 hover:text-amber-700 hover:bg-stone-50',

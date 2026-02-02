@@ -134,7 +134,7 @@ export default function HeroSlider({ slides, onPrimaryAction }) {
                     <div className="mt-7 flex flex-col sm:flex-row gap-3">
                       <button
                         onClick={() => onPrimaryAction(slide.primaryAction)}
-                        className="inline-flex items-center justify-center rounded-full bg-amber-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-amber-700"
+                        className="inline-flex items-center justify-center rounded-full bg-amber-600 px-6 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-amber-700 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] motion-reduce:transform-none motion-reduce:transition-none"
                       >
                         {slide.primaryLabel}
                       </button>
@@ -142,7 +142,7 @@ export default function HeroSlider({ slides, onPrimaryAction }) {
                       {slide.secondaryLabel && slide.secondaryAction && (
                         <button
                           onClick={() => onPrimaryAction(slide.secondaryAction)}
-                          className="inline-flex items-center justify-center rounded-full border border-white/35 bg-white/10 px-6 py-2.5 text-sm font-semibold text-white hover:bg-white/15"
+                          className="inline-flex items-center justify-center rounded-full border border-white/35 bg-white/10 px-6 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-white/15 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] motion-reduce:transform-none motion-reduce:transition-none"
                         >
                           {slide.secondaryLabel}
                         </button>

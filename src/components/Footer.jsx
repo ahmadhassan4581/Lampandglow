@@ -12,7 +12,7 @@ export default function Footer() {
   return (
     <footer>
       <div className="border-t border-stone-200 bg-[#f7f3ea]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="max-w-none mx-auto px-0 py-10">
           <div className="grid grid-cols-1 md:grid-cols-5 divide-y md:divide-y-0 md:divide-x divide-stone-300/70">
             <div className="py-8 md:py-0 md:px-6">
               <p className="text-sm font-semibold text-stone-900">Pakistan</p>
@@ -179,7 +179,7 @@ export default function Footer() {
       </div>
 
       <div className="bg-white border-t border-stone-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-xs text-stone-700">
+        <div className="max-w-none mx-auto px-0 py-4 text-center text-xs text-stone-700">
           © {new Date().getFullYear()} Lamp And Glow. Powered By WORKWOX Private Limited.
         </div>
       </div>

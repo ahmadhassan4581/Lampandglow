@@ -41,8 +41,6 @@ function SliderArrow({ className, style, onClick, direction, edgeOffset }) {
           ring-1 ring-white/30
           backdrop-blur
           shadow-lg
-          transition-all duration-300
-          hover:scale-110 hover:bg-amber-500 hover:shadow-amber-500/40
         "
       >
         {isNext ? (
@@ -58,6 +56,7 @@ function SliderArrow({ className, style, onClick, direction, edgeOffset }) {
 export default function HeroSlider({ slides, onPrimaryAction }) {
   const baseEdgeOffsetPx = 24
   const [scrollbarWidthPx, setScrollbarWidthPx] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     const updateScrollbarWidth = () => {
@@ -65,8 +64,14 @@ export default function HeroSlider({ slides, onPrimaryAction }) {
       setScrollbarWidthPx(width > 0 ? width : 0)
     }
 
+    const updateIsMobile = () => {
+      setIsMobile(window.innerWidth < 640)
+    }
+
     updateScrollbarWidth()
+    updateIsMobile()
     window.addEventListener('resize', updateScrollbarWidth)
+    window.addEventListener('resize', updateIsMobile)
     return () => window.removeEventListener('resize', updateScrollbarWidth)
   }, [])
 
@@ -79,9 +84,9 @@ export default function HeroSlider({ slides, onPrimaryAction }) {
 
   const settings = {
     dots: true,
-    arrows: true,
-    prevArrow: <SliderArrow direction="prev" edgeOffset={prevEdgeOffset} />,
-    nextArrow: <SliderArrow direction="next" edgeOffset={nextEdgeOffset} />,
+    arrows: !isMobile,
+    prevArrow: isMobile ? undefined : <SliderArrow direction="prev" edgeOffset={prevEdgeOffset} />,
+    nextArrow: isMobile ? undefined : <SliderArrow direction="next" edgeOffset={nextEdgeOffset} />,
     infinite: true,
     autoplay: true,
     autoplaySpeed: 4500,

@@ -89,9 +89,9 @@ export default function ProductsSection({
           return (
             <article
               key={product.id}
-              className="group flex flex-col bg-white"
+              className="group flex flex-col overflow-hidden rounded-3xl bg-stone-50 ring-1 ring-stone-200 shadow-sm"
             >
-              <Link to={`/product/${product.id}`} className="group block bg-white">
+              <Link to={`/product/${product.id}`} className="group block">
                 <div className="relative aspect-[3/4] overflow-hidden bg-stone-100">
                   {discountPercent !== null ? (
                     <span className="absolute left-0 top-0 z-10 bg-red-600 px-2 py-1 text-xs font-semibold text-white">
@@ -111,7 +111,7 @@ export default function ProductsSection({
                   ) : null}
                 </div>
 
-                <div className="px-3 pt-3 pb-2">
+                <div className="px-4 pt-4 pb-3">
                   <h2 className="text-sm font-semibold text-stone-900 leading-snug">
                     {product.name}
                   </h2>
@@ -127,7 +127,7 @@ export default function ProductsSection({
                 </div>
               </Link>
 
-              <div className="relative z-20 mt-2 px-3 pb-3 flex items-center justify-between gap-2">
+              <div className="relative z-20 mt-2 px-4 pb-4 flex items-center justify-between gap-2">
                 <button
                   onClick={() => handleAddToCart(product)}
                   className="inline-flex flex-1 items-center justify-center rounded-full bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-700"

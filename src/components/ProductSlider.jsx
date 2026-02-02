@@ -80,7 +80,10 @@ export default function ProductSlider({ products }) {
 
               return (
                 <div key={product.id} className="px-2">
-                  <Link to={`/product/${product.id}`} className="group block bg-white">
+                  <Link
+                    to={`/product/${product.id}`}
+                    className="group block overflow-hidden rounded-3xl bg-stone-50 ring-1 ring-stone-200 shadow-sm"
+                  >
                     <div className="relative aspect-[3/4] overflow-hidden bg-stone-100">
                       {discountPercent !== null ? (
                         <span className="absolute left-0 top-0 z-10 bg-red-600 px-2 py-1 text-xs font-semibold text-white">
@@ -94,7 +97,7 @@ export default function ProductSlider({ products }) {
                       />
                     </div>
 
-                    <div className="px-3 pt-3 pb-2">
+                    <div className="px-4 pt-4 pb-3">
                       <h3 className="text-sm font-semibold text-stone-900 leading-snug">
                         {product.name}
                       </h3>

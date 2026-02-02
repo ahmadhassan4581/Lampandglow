@@ -43,8 +43,18 @@ body {
 }
 
 .lg-marquee__inner {
-  display: inline-flex;
+  display: flex;
   white-space: nowrap;
   will-change: transform;
   animation: lg-marquee 18s linear infinite;
+}
+
+.lg-marquee__track {
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+
+.lg-marquee__item {
+  display: inline-block;
+  padding: 0 24px 0 0;
 }

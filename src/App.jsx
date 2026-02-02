@@ -25,7 +25,10 @@ function App() {
   const navigate = useNavigate()
   const location = useLocation()
   const [activeSection, setActiveSection] = useState('home')
-  const [theme, setTheme] = useState('light')
+  const [theme, setTheme] = useState(() => {
+    const saved = window.localStorage.getItem('lg-theme')
+    return saved === 'dark' ? 'dark' : 'light'
+  })
   const [cart, setCart] = useState([])
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [searchQuery, setSearchQuery] = useState('')
@@ -148,6 +151,10 @@ function App() {
       setActiveSection('reels')
     }
   }, [activeSection, location.pathname])
+
+  useEffect(() => {
+    window.localStorage.setItem('lg-theme', theme)
+  }, [theme])
 
   function handleAddToCart(product) {
     setCart((prev) => {
@@ -292,8 +299,8 @@ function App() {
     <div
       className={
         theme === 'dark'
-          ? 'min-h-screen bg-stone-950 text-stone-100 flex flex-col'
-          : 'min-h-screen bg-stone-50 text-stone-900 flex flex-col'
+          ? 'min-h-screen bg-[#1a0f00] text-stone-100 flex flex-col'
+          : 'min-h-screen bg-[#fff7e6] text-stone-900 flex flex-col'
       }
     >
       {/* Header */}
@@ -312,7 +319,7 @@ function App() {
       />
 
       {/* Main content */}
-      <main className={theme === 'dark' ? 'flex-1 bg-stone-50 text-stone-900 pt-32 md:pt-20' : 'flex-1 pt-32 md:pt-20'}>
+      <main className={theme === 'dark' ? 'flex-1 pt-32 md:pt-20' : 'flex-1 pt-32 md:pt-20'}>
         <Routes>
           <Route
             path="/"

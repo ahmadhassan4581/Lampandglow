@@ -68,13 +68,26 @@ export default function Header({
   }
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-stone-200">
+    <header
+      className={classNames(
+        'fixed top-0 left-0 right-0 z-50 border-b',
+        theme === 'dark' ? 'bg-[#1a0f00] border-white/10' : 'bg-white border-stone-200',
+      )}
+    >
       <div className="bg-amber-600 text-white text-xs sm:text-sm font-semibold lg-marquee">
         <div className="lg-marquee__inner py-2">
-          <span className="px-6">Enjoy Free Shipping on orders over 10,000</span>
-          <span className="px-6">Enjoy Free Shipping on orders over 10,000</span>
-          <span className="px-6">Enjoy Free Shipping on orders over 10,000</span>
-          <span className="px-6">Enjoy Free Shipping on orders over 10,000</span>
+          <div className="lg-marquee__track">
+            <span className="lg-marquee__item">Enjoy Free Shipping on orders over 10,000</span>
+            <span className="lg-marquee__item">Enjoy Free Shipping on orders over 10,000</span>
+            <span className="lg-marquee__item">Enjoy Free Shipping on orders over 10,000</span>
+            <span className="lg-marquee__item">Enjoy Free Shipping on orders over 10,000</span>
+          </div>
+          <div className="lg-marquee__track" aria-hidden="true">
+            <span className="lg-marquee__item">Enjoy Free Shipping on orders over 10,000</span>
+            <span className="lg-marquee__item">Enjoy Free Shipping on orders over 10,000</span>
+            <span className="lg-marquee__item">Enjoy Free Shipping on orders over 10,000</span>
+            <span className="lg-marquee__item">Enjoy Free Shipping on orders over 10,000</span>
+          </div>
         </div>
       </div>
 
@@ -98,7 +111,12 @@ export default function Header({
           )}
         </button>
 
-        <nav className="hidden lg:flex items-center gap-7 text-xs font-semibold tracking-[0.12em] text-stone-700">
+        <nav
+          className={classNames(
+            'hidden lg:flex items-center gap-7 text-xs font-semibold tracking-[0.12em]',
+            theme === 'dark' ? 'text-stone-200' : 'text-stone-700',
+          )}
+        >
           <button onClick={() => handleNavigate('categories')} className="hover:text-amber-700 transition-colors">
             COLLECTION
           </button>
@@ -131,7 +149,10 @@ export default function Header({
               }}
               type="text"
               placeholder="Search entire store here..."
-              className="w-full bg-transparent text-sm text-stone-800 placeholder:text-stone-400 focus:outline-none"
+              className={classNames(
+                'w-full bg-transparent text-sm placeholder:text-stone-400 focus:outline-none',
+                theme === 'dark' ? 'text-stone-100' : 'text-stone-800',
+              )}
             />
           </div>
 
@@ -164,28 +185,48 @@ export default function Header({
           <button
             type="button"
             onClick={toggleTheme}
-            className="hidden sm:inline-flex h-10 items-center justify-center rounded-full border border-stone-200 bg-white px-4 text-xs font-semibold text-stone-700 hover:bg-stone-50"
+            className={classNames(
+              'hidden sm:inline-flex h-10 items-center justify-center rounded-full border px-4 text-xs font-semibold',
+              theme === 'dark'
+                ? 'border-white/15 bg-white/5 text-stone-100 hover:bg-white/10'
+                : 'border-stone-200 bg-white text-stone-700 hover:bg-stone-50',
+            )}
             aria-label="Toggle theme"
           >
             {theme === 'dark' ? 'Light' : 'Dark'}
           </button>
           <button
             onClick={() => handleNavigate('profile')}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-700 hover:text-amber-700 hover:bg-stone-50"
+            className={classNames(
+              'inline-flex h-10 w-10 items-center justify-center rounded-full border',
+              theme === 'dark'
+                ? 'border-white/15 bg-white/5 text-stone-100 hover:text-amber-300 hover:bg-white/10'
+                : 'border-stone-200 bg-white text-stone-700 hover:text-amber-700 hover:bg-stone-50',
+            )}
             aria-label="Profile"
           >
             <FaUserAlt className="h-4 w-4" />
           </button>
           <button
             onClick={navigateToWishlist}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-700 hover:text-amber-700 hover:bg-stone-50"
+            className={classNames(
+              'inline-flex h-10 w-10 items-center justify-center rounded-full border',
+              theme === 'dark'
+                ? 'border-white/15 bg-white/5 text-stone-100 hover:text-amber-300 hover:bg-white/10'
+                : 'border-stone-200 bg-white text-stone-700 hover:text-amber-700 hover:bg-stone-50',
+            )}
             aria-label="Wishlist"
           >
             <FaHeart className="h-4 w-4" />
           </button>
           <button
             onClick={() => handleNavigate('cart')}
-            className="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-700 hover:text-amber-700 hover:bg-stone-50"
+            className={classNames(
+              'relative inline-flex h-10 w-10 items-center justify-center rounded-full border',
+              theme === 'dark'
+                ? 'border-white/15 bg-white/5 text-stone-100 hover:text-amber-300 hover:bg-white/10'
+                : 'border-stone-200 bg-white text-stone-700 hover:text-amber-700 hover:bg-stone-50',
+            )}
             aria-label="Cart"
           >
             <FaShoppingCart className="h-4 w-4" />
@@ -196,7 +237,12 @@ export default function Header({
 
           <button
             onClick={() => setMobileNavOpen((prev) => !prev)}
-            className="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-700 hover:bg-stone-50"
+            className={classNames(
+              'lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-full border',
+              theme === 'dark'
+                ? 'border-white/15 bg-white/5 text-stone-100 hover:bg-white/10'
+                : 'border-stone-200 bg-white text-stone-700 hover:bg-stone-50',
+            )}
             aria-label="Toggle navigation menu"
           >
             <svg

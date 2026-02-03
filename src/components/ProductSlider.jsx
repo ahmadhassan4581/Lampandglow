@@ -3,7 +3,7 @@ import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
-export default function ProductSlider({ products }) {
+export default function ProductSlider({ products, theme = 'light' }) {
   const formatPrice = (value) => {
     if (typeof value !== 'number' || Number.isNaN(value)) return ''
     return new Intl.NumberFormat('en-PK', {
@@ -53,7 +53,13 @@ export default function ProductSlider({ products }) {
   }
 
   return (
-    <section className="bg-white border-b border-stone-200/80">
+    <section
+      className={
+        theme === 'dark'
+          ? 'bg-transparent border-b border-white/10'
+          : 'bg-white border-b border-stone-200/80'
+      }
+    >
       <div className="w-full px-0 py-10 sm:py-12">
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between gap-4 mb-6">

@@ -10,15 +10,16 @@ export default function HomeSection({
   products,
   categories,
   testimonials,
+  theme,
   onViewAllCategories,
   onPickCategory,
   onViewAllProducts,
 }) {
   return (
-    <section className="bg-white">
+    <section className={theme === 'dark' ? 'bg-transparent' : 'bg-white'}>
       <HeroSlider slides={heroSlides} onPrimaryAction={onHeroAction} />
 
-      <ProductSlider products={products} />
+      <ProductSlider products={products} theme={theme} />
 
       <HomeCategoriesPreview
         categories={categories}
@@ -26,7 +27,7 @@ export default function HomeSection({
         onPickCategory={onPickCategory}
       />
 
-      <HomeFeaturedProducts products={products} onViewAll={onViewAllProducts} />
+      <HomeFeaturedProducts products={products} onViewAll={onViewAllProducts} theme={theme} />
 
       <HomeTestimonials testimonials={testimonials} />
     </section>

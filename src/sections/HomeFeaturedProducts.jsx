@@ -20,23 +20,39 @@ const getDiscountPercent = (price, compareAtPrice) => {
   return Math.round(((original - discounted) / original) * 100)
 }
 
-export default function HomeFeaturedProducts({ products, onViewAll }) {
+export default function HomeFeaturedProducts({ products, onViewAll, theme = 'light' }) {
   return (
-    <section className="bg-white border-y border-stone-200/80">
+    <section
+      className={
+        theme === 'dark'
+          ? 'bg-transparent border-y border-white/10'
+          : 'bg-white border-y border-stone-200/80'
+      }
+    >
       <div className="w-full px-0 py-10 sm:py-14">
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between gap-4 mb-6">
             <div>
-              <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-stone-900">
+              <h2
+                className={
+                  theme === 'dark'
+                    ? 'text-xl sm:text-2xl font-semibold tracking-tight text-stone-100'
+                    : 'text-xl sm:text-2xl font-semibold tracking-tight text-stone-900'
+                }
+              >
                 Featured Pieces
               </h2>
-              <p className="mt-1 text-xs sm:text-sm text-stone-600">
+              <p className={theme === 'dark' ? 'mt-1 text-xs sm:text-sm text-stone-300' : 'mt-1 text-xs sm:text-sm text-stone-600'}>
                 Handpicked decor to start your Lamp &amp; Glow collection.
               </p>
             </div>
             <button
               onClick={onViewAll}
-              className="hidden sm:inline-flex text-xs font-medium text-amber-700 hover:text-amber-800"
+              className={
+                theme === 'dark'
+                  ? 'hidden sm:inline-flex text-xs font-medium text-amber-300 hover:text-amber-200'
+                  : 'hidden sm:inline-flex text-xs font-medium text-amber-700 hover:text-amber-800'
+              }
             >
               View all products
             </button>

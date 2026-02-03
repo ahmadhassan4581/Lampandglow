@@ -64,10 +64,16 @@ export default function ProductSlider({ products, theme = 'light' }) {
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between gap-4 mb-6">
             <div>
-              <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-stone-900">
+              <h2
+                className={
+                  theme === 'dark'
+                    ? 'text-xl sm:text-2xl font-semibold tracking-tight text-stone-100'
+                    : 'text-xl sm:text-2xl font-semibold tracking-tight text-stone-900'
+                }
+              >
                 Explore our best sellers
               </h2>
-              <p className="mt-1 text-xs sm:text-sm text-stone-600">
+              <p className={theme === 'dark' ? 'mt-1 text-xs sm:text-sm text-stone-300' : 'mt-1 text-xs sm:text-sm text-stone-600'}>
                 Slide through featured pieces crafted to bring a warm glow.
               </p>
             </div>

@@ -8,47 +8,69 @@ import {
   FaWhatsapp,
 } from 'react-icons/fa'
 
-export default function Footer() {
+export default function Footer({ theme = 'light' }) {
   return (
     <footer>
-      <div className="border-t border-stone-200 bg-[#f7f3ea]">
+      <div
+        className={
+          theme === 'dark'
+            ? 'border-t border-white/10 bg-transparent'
+            : 'border-t border-stone-200 bg-[#f7f3ea]'
+        }
+      >
         <div className="max-w-none mx-auto px-0 py-10">
           <div className="grid grid-cols-1 md:grid-cols-5 divide-y md:divide-y-0 md:divide-x divide-stone-300/70">
             <div className="py-8 md:py-0 md:px-6">
-              <p className="text-sm font-semibold text-stone-900">Pakistan</p>
-              <div className="mt-4 space-y-3 text-sm text-stone-700">
+              <p className={theme === 'dark' ? 'text-sm font-semibold text-stone-100' : 'text-sm font-semibold text-stone-900'}>
+                Pakistan
+              </p>
+              <div className={theme === 'dark' ? 'mt-4 space-y-3 text-sm text-stone-300' : 'mt-4 space-y-3 text-sm text-stone-700'}>
                 <div className="flex gap-3">
-                  <FaMapMarkerAlt className="mt-1 h-4 w-4 text-stone-700" />
+                  <FaMapMarkerAlt className={theme === 'dark' ? 'mt-1 h-4 w-4 text-stone-300' : 'mt-1 h-4 w-4 text-stone-700'} />
                   <span>Hameed Ullah Mokal Colony, Sahiwal</span>
                 </div>
                 <div className="flex gap-3">
-                  <FaWhatsapp className="mt-1 h-4 w-4 text-stone-700" />
+                  <FaWhatsapp className={theme === 'dark' ? 'mt-1 h-4 w-4 text-stone-300' : 'mt-1 h-4 w-4 text-stone-700'} />
                   <span>WhatsApp: (302)-052-1000</span>
                 </div>
                 <div className="flex gap-3">
-                  <FaEnvelope className="mt-1 h-4 w-4 text-stone-700" />
+                  <FaEnvelope className={theme === 'dark' ? 'mt-1 h-4 w-4 text-stone-300' : 'mt-1 h-4 w-4 text-stone-700'} />
                   <a href="mailto:support@lampandglow.com" className="hover:underline">
                     support@lampandglow.com
                   </a>
                 </div>
               </div>
 
-              <div className="mt-6 flex items-center gap-5 text-stone-700">
-                <a href="#" aria-label="Facebook" className="hover:text-stone-900">
+              <div className={theme === 'dark' ? 'mt-6 flex items-center gap-5 text-stone-300' : 'mt-6 flex items-center gap-5 text-stone-700'}>
+                <a
+                  href="#"
+                  aria-label="Facebook"
+                  className={theme === 'dark' ? 'hover:text-stone-100' : 'hover:text-stone-900'}
+                >
                   <FaFacebookF className="h-4 w-4" />
                 </a>
-                <a href="#" aria-label="Instagram" className="hover:text-stone-900">
+                <a
+                  href="#"
+                  aria-label="Instagram"
+                  className={theme === 'dark' ? 'hover:text-stone-100' : 'hover:text-stone-900'}
+                >
                   <FaInstagram className="h-4 w-4" />
                 </a>
-                <a href="#" aria-label="Pinterest" className="hover:text-stone-900">
+                <a
+                  href="#"
+                  aria-label="Pinterest"
+                  className={theme === 'dark' ? 'hover:text-stone-100' : 'hover:text-stone-900'}
+                >
                   <FaPinterestP className="h-4 w-4" />
                 </a>
               </div>
             </div>
 
             <div className="py-8 md:py-0 md:px-6">
-              <p className="text-sm font-semibold text-stone-900">Quick Links</p>
-              <ul className="mt-4 space-y-2 text-sm text-stone-700">
+              <p className={theme === 'dark' ? 'text-sm font-semibold text-stone-100' : 'text-sm font-semibold text-stone-900'}>
+                Quick Links
+              </p>
+              <ul className={theme === 'dark' ? 'mt-4 space-y-2 text-sm text-stone-300' : 'mt-4 space-y-2 text-sm text-stone-700'}>
                 <li>
                   <Link to="/" className="hover:underline">
                     Home
@@ -88,8 +110,10 @@ export default function Footer() {
             </div>
 
             <div className="py-8 md:py-0 md:px-6">
-              <p className="text-sm font-semibold text-stone-900">Collections</p>
-              <ul className="mt-4 space-y-2 text-sm text-stone-700">
+              <p className={theme === 'dark' ? 'text-sm font-semibold text-stone-100' : 'text-sm font-semibold text-stone-900'}>
+                Collections
+              </p>
+              <ul className={theme === 'dark' ? 'mt-4 space-y-2 text-sm text-stone-300' : 'mt-4 space-y-2 text-sm text-stone-700'}>
                 <li>
                   <a href="#" className="hover:underline">
                     Table Lamps
@@ -124,8 +148,10 @@ export default function Footer() {
             </div>
 
             <div className="py-8 md:py-0 md:px-6">
-              <p className="text-sm font-semibold text-stone-900">Policies</p>
-              <ul className="mt-4 space-y-2 text-sm text-stone-700">
+              <p className={theme === 'dark' ? 'text-sm font-semibold text-stone-100' : 'text-sm font-semibold text-stone-900'}>
+                Policies
+              </p>
+              <ul className={theme === 'dark' ? 'mt-4 space-y-2 text-sm text-stone-300' : 'mt-4 space-y-2 text-sm text-stone-700'}>
                 <li>
                   <a href="#" className="hover:underline">
                     Privacy Policy
@@ -155,8 +181,10 @@ export default function Footer() {
             </div>
 
             <div className="py-8 md:py-0 md:px-6">
-              <p className="text-sm font-semibold text-stone-900">Newsletter Sign Up</p>
-              <p className="mt-4 text-sm text-stone-700">
+              <p className={theme === 'dark' ? 'text-sm font-semibold text-stone-100' : 'text-sm font-semibold text-stone-900'}>
+                Newsletter Sign Up
+              </p>
+              <p className={theme === 'dark' ? 'mt-4 text-sm text-stone-300' : 'mt-4 text-sm text-stone-700'}>
                 Receive our latest updates about our products &amp; promotions.
               </p>
 
@@ -164,7 +192,11 @@ export default function Footer() {
                 <input
                   type="email"
                   placeholder="Email address"
-                  className="w-full rounded-sm border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-amber-400"
+                  className={
+                    theme === 'dark'
+                      ? 'w-full rounded-sm border border-white/15 bg-white/5 px-4 py-3 text-sm text-stone-100 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-amber-400'
+                      : 'w-full rounded-sm border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-amber-400'
+                  }
                 />
                 <button
                   type="button"
@@ -178,8 +210,8 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="bg-white border-t border-stone-200">
-        <div className="max-w-none mx-auto px-0 py-4 text-center text-xs text-stone-700">
+      <div className={theme === 'dark' ? 'bg-transparent border-t border-white/10' : 'bg-white border-t border-stone-200'}>
+        <div className={theme === 'dark' ? 'max-w-none mx-auto px-0 py-4 text-center text-xs text-stone-400' : 'max-w-none mx-auto px-0 py-4 text-center text-xs text-stone-700'}>
           © {new Date().getFullYear()} All rights reserved by Lampandglow.
         </div>
       </div>

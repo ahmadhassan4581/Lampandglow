@@ -327,6 +327,7 @@ function App() {
               <>
                 {activeSection === 'home' && (
                   <HomeSection
+                    theme={theme}
                     heroSlides={heroSlides}
                     onHeroAction={handleHeroAction}
                     products={PRODUCTS}
@@ -411,7 +412,7 @@ function App() {
         </Routes>
       </main>
 
-      <Footer />
+      <Footer theme={theme} />
     </div>
   )
 }

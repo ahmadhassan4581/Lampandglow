@@ -68,9 +68,10 @@ export default function ProductSlider({ products }) {
           </div>
         </div>
 
-        <div className="sm:-mx-2">
-          <Slider {...settings}>
-            {products.map((product) => {
+        <div className="px-4 sm:px-6 lg:px-8">
+          <div className="sm:-mx-2">
+            <Slider {...settings}>
+              {products.map((product) => {
               const compareAtPrice = product.compareAtPrice
               const discountPercent = getDiscountPercent(product.price, compareAtPrice)
               const originalPrice =
@@ -116,8 +117,9 @@ export default function ProductSlider({ products }) {
                   </Link>
                 </div>
               )
-            })}
-          </Slider>
+              })}
+            </Slider>
+          </div>
         </div>
       </div>
     </section>

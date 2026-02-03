@@ -43,8 +43,9 @@ export default function HomeFeaturedProducts({ products, onViewAll }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {products.slice(0, 4).map((product) => {
+        <div className="px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {products.slice(0, 4).map((product) => {
             const compareAtPrice = product.compareAtPrice
             const discountPercent = getDiscountPercent(product.price, compareAtPrice)
             const originalPrice =
@@ -85,7 +86,8 @@ export default function HomeFeaturedProducts({ products, onViewAll }) {
                 </div>
               </Link>
             )
-          })}
+            })}
+          </div>
         </div>
       </div>
     </section>

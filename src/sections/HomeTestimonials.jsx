@@ -9,7 +9,6 @@ export default function HomeTestimonials({ testimonials }) {
 
       <div className="relative px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
-          <p className="text-[11px] tracking-[0.35em] text-emerald-200/80">TESTIMONIALS</p>
           <h2 className="mt-4 text-2xl sm:text-3xl font-semibold tracking-tight text-amber-200">
             1000 + HAPPY CUSTOMERS
           </h2>

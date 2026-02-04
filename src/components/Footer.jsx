@@ -77,14 +77,14 @@ export default function Footer({ theme = 'light' }) {
                   </Link>
                 </li>
                 <li>
-                  <a href="#" className="hover:underline">
+                  <Link to="/contact" className="hover:underline">
                     Contact Us
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="hover:underline">
+                  <Link to="/about" className="hover:underline">
                     About Us
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <Link to="/wishlist" className="hover:underline">

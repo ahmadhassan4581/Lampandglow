@@ -7,6 +7,8 @@ import BlogsList from './pages/BlogsList.jsx'
 import BlogDetail from './pages/BlogDetail.jsx'
 import WishlistPage from './pages/WishlistPage.jsx'
 import ReelsPage from './pages/ReelsPage.jsx'
+import AboutPage from './pages/AboutPage.jsx'
+import ContactPage from './pages/ContactPage.jsx'
 
 import HomeSection from './sections/HomeSection.jsx'
 import CategoriesSection from './sections/CategoriesSection.jsx'
@@ -402,6 +404,8 @@ function App() {
           <Route path="/blogs" element={<BlogsList blogs={BLOGS} />} />
           <Route path="/blog/:id" element={<BlogDetail blogs={BLOGS} />} />
           <Route path="/reels" element={<ReelsPage reels={REELS} />} />
+          <Route path="/about" element={<AboutPage theme={theme} />} />
+          <Route path="/contact" element={<ContactPage theme={theme} />} />
           <Route path="/wishlist" element={<WishlistPage />} />
           <Route
             path="/product/:id"

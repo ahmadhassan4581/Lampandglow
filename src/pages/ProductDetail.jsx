@@ -111,7 +111,7 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
 
         <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-start">
           <div>
-            <div className="relative overflow-hidden border border-stone-200 bg-white">
+            <div className="group relative overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md motion-reduce:transform-none motion-reduce:transition-none">
               {hasDiscount && (
                 <span className="absolute left-3 top-3 z-10 inline-flex items-center bg-rose-600 px-2 py-1 text-[11px] font-semibold text-white">
                   -{discountPercent}%
@@ -121,7 +121,7 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
                 <img
                   src={selectedImage}
                   alt={product.name}
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03] motion-reduce:transform-none"
                 />
               </div>
             </div>
@@ -133,15 +133,17 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
                   type="button"
                   onClick={() => setActiveImageIndex(idx)}
                   className={classNames(
-                    'border bg-white overflow-hidden aspect-[4/3]',
-                    idx === activeImageIndex ? 'border-stone-900' : 'border-stone-200',
+                    'group border bg-white overflow-hidden aspect-[4/3] rounded-xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm motion-reduce:transform-none motion-reduce:transition-none',
+                    idx === activeImageIndex
+                      ? 'border-stone-900 ring-1 ring-stone-900'
+                      : 'border-stone-200 hover:border-stone-400',
                   )}
                 >
                   <img
                     src={src}
                     alt={`${product.name} thumbnail ${idx + 1}`}
                     className={classNames(
-                      'h-full w-full object-cover',
+                      'h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04] motion-reduce:transform-none',
                       idx === activeImageIndex ? 'opacity-100' : 'opacity-60 hover:opacity-100',
                     )}
                   />
@@ -260,7 +262,7 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
                   <button
                     type="button"
                     onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
-                    className="h-11 w-11 grid place-items-center text-stone-700 hover:bg-stone-50"
+                    className="h-11 w-11 grid place-items-center text-stone-700 transition-colors hover:bg-stone-50"
                     aria-label="Decrease quantity"
                   >
                     −
@@ -271,7 +273,7 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
                   <button
                     type="button"
                     onClick={() => setQuantity((prev) => Math.min(Math.max(stock, 99), prev + 1))}
-                    className="h-11 w-11 grid place-items-center text-stone-700 hover:bg-stone-50"
+                    className="h-11 w-11 grid place-items-center text-stone-700 transition-colors hover:bg-stone-50"
                     aria-label="Increase quantity"
                   >
                     +
@@ -280,7 +282,7 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
 
                 <button
                   type="button"
-                  className="h-11 w-11 border border-stone-300 grid place-items-center bg-white text-stone-700 hover:bg-stone-50"
+                  className="h-11 w-11 border border-stone-300 grid place-items-center bg-white text-stone-700 transition-all duration-200 hover:-translate-y-0.5 hover:bg-stone-50 hover:shadow-sm active:scale-[0.98] motion-reduce:transform-none motion-reduce:transition-none"
                   aria-label="Share"
                 >
                   <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -295,7 +297,7 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
                 <button
                   type="button"
                   onClick={() => navigate('/wishlist')}
-                  className="h-11 w-11 border border-stone-300 grid place-items-center bg-white text-stone-700 hover:bg-stone-50"
+                  className="h-11 w-11 border border-stone-300 grid place-items-center bg-white text-stone-700 transition-all duration-200 hover:-translate-y-0.5 hover:bg-stone-50 hover:shadow-sm active:scale-[0.98] motion-reduce:transform-none motion-reduce:transition-none"
                   aria-label="Add to wishlist"
                 >
                   <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -307,7 +309,7 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
                   type="button"
                   onClick={addQuantityToCart}
                   className={classNames(
-                    'h-11 flex-1 border border-stone-900 bg-stone-900 text-white text-xs font-semibold hover:bg-stone-800',
+                    'h-11 flex-1 border border-stone-900 bg-stone-900 text-white text-xs font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:bg-stone-800 hover:shadow-sm active:scale-[0.99] motion-reduce:transform-none motion-reduce:transition-none',
                     !inStock && 'opacity-50 cursor-not-allowed',
                   )}
                   disabled={!inStock}
@@ -324,7 +326,7 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
                   navigate('/')
                 }}
                 className={classNames(
-                  'mt-3 h-11 w-full border border-stone-300 bg-white text-xs font-semibold text-stone-900 hover:bg-stone-50',
+                  'mt-3 h-11 w-full border border-stone-300 bg-white text-xs font-semibold text-stone-900 transition-all duration-200 hover:-translate-y-0.5 hover:bg-stone-50 hover:shadow-sm active:scale-[0.99] motion-reduce:transform-none motion-reduce:transition-none',
                   !inStock && 'opacity-50 cursor-not-allowed',
                 )}
                 disabled={!inStock}
@@ -361,7 +363,7 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
               type="button"
               onClick={() => setActiveTab('description')}
               className={classNames(
-                'pb-2 border-b-2',
+                'pb-2 border-b-2 transition-colors duration-200',
                 activeTab === 'description' ? 'border-stone-900 text-stone-900' : 'border-transparent hover:text-stone-900',
               )}
             >
@@ -371,11 +373,11 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
               type="button"
               onClick={() => setActiveTab('shipping')}
               className={classNames(
-                'pb-2 border-b-2',
+                'pb-2 border-b-2 transition-colors duration-200',
                 activeTab === 'shipping' ? 'border-stone-900 text-stone-900' : 'border-transparent hover:text-stone-900',
               )}
             >
-              Shipping &amp; Return
+              Shipping
             </button>
           </div>
 

@@ -94,7 +94,7 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
 
   return (
     <section className="w-full px-0 py-6 sm:py-10">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-none mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-[11px] text-stone-500 flex flex-wrap items-center gap-1">
           <button
             type="button"
@@ -117,7 +117,7 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
                   -{discountPercent}%
                 </span>
               )}
-              <div className="aspect-[4/3] sm:aspect-[5/4] bg-stone-100">
+              <div className="h-[380px] sm:h-[460px] lg:h-[640px] bg-stone-100">
                 <img
                   src={selectedImage}
                   alt={product.name}

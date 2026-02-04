@@ -117,7 +117,7 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
                   -{discountPercent}%
                 </span>
               )}
-              <div className="h-[380px] sm:h-[460px] lg:h-[640px] bg-stone-100">
+              <div className="aspect-[6/9] bg-stone-100">
                 <img
                   src={selectedImage}
                   alt={product.name}

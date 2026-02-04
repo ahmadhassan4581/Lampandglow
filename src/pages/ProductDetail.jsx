@@ -249,25 +249,29 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
             )}
 
             <div className="mt-5 border-t border-stone-200 pt-4">
-              <p className="text-xs font-semibold text-stone-800">Subtotal: <span className="font-semibold">{formatPKR(product.price * Math.max(1, quantity))}</span></p>
+              <p className="text-xs text-stone-700">
+                Subtotal: <span className="font-semibold">{formatPKR(product.price * Math.max(1, quantity))}</span>
+              </p>
 
-              <div className="mt-3 flex items-center gap-2">
+              <p className="mt-4 text-xs font-semibold text-stone-700">Quantity:</p>
+
+              <div className="mt-2 flex items-center gap-3">
                 <div className="flex items-center border border-stone-300 bg-white">
                   <button
                     type="button"
                     onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
-                    className="h-9 w-9 grid place-items-center text-stone-700 hover:bg-stone-50"
+                    className="h-11 w-11 grid place-items-center text-stone-700 hover:bg-stone-50"
                     aria-label="Decrease quantity"
                   >
                     −
                   </button>
-                  <div className="h-9 w-10 grid place-items-center text-sm text-stone-900">
+                  <div className="h-11 w-12 grid place-items-center text-sm font-medium text-stone-900">
                     {quantity}
                   </div>
                   <button
                     type="button"
                     onClick={() => setQuantity((prev) => Math.min(Math.max(stock, 99), prev + 1))}
-                    className="h-9 w-9 grid place-items-center text-stone-700 hover:bg-stone-50"
+                    className="h-11 w-11 grid place-items-center text-stone-700 hover:bg-stone-50"
                     aria-label="Increase quantity"
                   >
                     +
@@ -276,8 +280,22 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
 
                 <button
                   type="button"
+                  className="h-11 w-11 border border-stone-300 grid place-items-center bg-white text-stone-700 hover:bg-stone-50"
+                  aria-label="Share"
+                >
+                  <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
+                    <path d="M15 8a3 3 0 1 0-2.82-4" />
+                    <path d="M6 14a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" />
+                    <path d="M18 11a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" />
+                    <path d="M8.6 15.5l6.8-3" />
+                    <path d="M8.6 18.5l6.8 3" />
+                  </svg>
+                </button>
+
+                <button
+                  type="button"
                   onClick={() => navigate('/wishlist')}
-                  className="h-9 w-9 border border-stone-300 grid place-items-center bg-white text-stone-700 hover:bg-stone-50"
+                  className="h-11 w-11 border border-stone-300 grid place-items-center bg-white text-stone-700 hover:bg-stone-50"
                   aria-label="Add to wishlist"
                 >
                   <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -285,13 +303,11 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
                   </svg>
                 </button>
 
-                <div className="flex-1" />
-
                 <button
                   type="button"
                   onClick={addQuantityToCart}
                   className={classNames(
-                    'h-9 flex-1 sm:flex-none sm:w-64 border border-stone-900 bg-stone-900 text-white text-xs font-semibold hover:bg-stone-800',
+                    'h-11 flex-1 border border-stone-900 bg-stone-900 text-white text-xs font-semibold hover:bg-stone-800',
                     !inStock && 'opacity-50 cursor-not-allowed',
                   )}
                   disabled={!inStock}
@@ -308,7 +324,7 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
                   navigate('/')
                 }}
                 className={classNames(
-                  'mt-3 h-9 w-full border border-stone-300 bg-white text-xs font-semibold text-stone-900 hover:bg-stone-50',
+                  'mt-3 h-11 w-full border border-stone-300 bg-white text-xs font-semibold text-stone-900 hover:bg-stone-50',
                   !inStock && 'opacity-50 cursor-not-allowed',
                 )}
                 disabled={!inStock}

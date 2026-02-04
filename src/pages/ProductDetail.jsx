@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import classNames from '../utils/classNames.js'
 
@@ -8,6 +8,8 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
   const productId = Number(id)
   const product = products.find((p) => p.id === productId)
   const [selectedBulbOption, setSelectedBulbOption] = useState('')
+  const [selectedColorIndex, setSelectedColorIndex] = useState(0)
+  const [isCompareOpen, setIsCompareOpen] = useState(false)
   const [quantity, setQuantity] = useState(1)
   const [activeTab, setActiveTab] = useState('description')
   const [activeImageIndex, setActiveImageIndex] = useState(0)
@@ -40,6 +42,31 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
   const inStock = stock > 0
   const bulbOptions = Array.isArray(product.bulbOptions) ? product.bulbOptions : []
   const sku = product.sku || `LG-${String(product.id).padStart(4, '0')}`
+  const baseColors = Array.isArray(product?.productDetails?.baseColors) ? product.productDetails.baseColors : []
+  const safeColorIndex = Math.min(Math.max(selectedColorIndex, 0), Math.max(baseColors.length - 1, 0))
+  const selectedColor = baseColors[safeColorIndex] || ''
+
+  const getSwatchHex = (value) => {
+    const key = String(value || '').toLowerCase()
+    if (key.includes('espresso')) return '#3b2a22'
+    if (key.includes('walnut')) return '#6b4f2d'
+    if (key.includes('brown')) return '#5c3b2e'
+    if (key.includes('black')) return '#111827'
+    if (key.includes('white')) return '#f8fafc'
+    if (key.includes('natural')) return '#c8a97b'
+    if (key.includes('beige')) return '#e7d8c5'
+    if (key.includes('cream')) return '#f3ead7'
+    return '#d6d3d1'
+  }
+
+  useEffect(() => {
+    if (!isCompareOpen) return
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') setIsCompareOpen(false)
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [isCompareOpen])
 
   const images = useMemo(() => {
     if (Array.isArray(product.images) && product.images.length > 0) {
@@ -246,6 +273,118 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
                       </button>
                     )
                   })}
+                </div>
+              </div>
+            )}
+
+            {baseColors.length > 0 && (
+              <div className="mt-5 border-t border-stone-200 pt-4">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-xs font-semibold text-stone-800">
+                    Color: <span className="font-medium text-stone-600">{selectedColor}</span>
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setIsCompareOpen(true)}
+                    className="text-[11px] font-semibold text-stone-600 underline underline-offset-4 hover:text-stone-900"
+                  >
+                    Compare
+                  </button>
+                </div>
+
+                <div className="mt-3 flex items-center gap-3">
+                  {baseColors.map((color, idx) => {
+                    const active = idx === safeColorIndex
+                    return (
+                      <button
+                        key={`${color}-${idx}`}
+                        type="button"
+                        onClick={() => {
+                          setSelectedColorIndex(idx)
+                          setActiveImageIndex(Math.min(idx, Math.max(images.length - 1, 0)))
+                        }}
+                        className={classNames(
+                          'rounded-full p-0.5 transition-transform duration-200 hover:-translate-y-0.5 active:scale-[0.98] motion-reduce:transform-none motion-reduce:transition-none',
+                          active ? 'ring-2 ring-stone-900 ring-offset-2 ring-offset-white' : 'ring-1 ring-stone-300 ring-offset-2 ring-offset-white',
+                        )}
+                        aria-label={`Select color ${color}`}
+                      >
+                        <span
+                          className="block h-14 w-14 rounded-full border border-stone-200"
+                          style={{ backgroundColor: getSwatchHex(color) }}
+                        />
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+
+            {isCompareOpen && baseColors.length > 0 && (
+              <div
+                className="fixed inset-0 z-50 bg-black/50 px-4 py-10"
+                onClick={() => setIsCompareOpen(false)}
+                role="presentation"
+              >
+                <div
+                  className="relative mx-auto w-full max-w-5xl bg-white shadow-xl"
+                  onClick={(e) => e.stopPropagation()}
+                  role="dialog"
+                  aria-modal="true"
+                  aria-label="Compare Color"
+                >
+                  <button
+                    type="button"
+                    onClick={() => setIsCompareOpen(false)}
+                    className="absolute right-0 top-0 h-10 w-10 grid place-items-center bg-black text-white"
+                    aria-label="Close compare"
+                  >
+                    ×
+                  </button>
+
+                  <div className="p-6 sm:p-8">
+                    <p className="text-xs font-semibold text-stone-800">Compare Color</p>
+
+                    <div className="mt-4 flex items-center gap-3">
+                      {baseColors.map((color, idx) => {
+                        const active = idx === safeColorIndex
+                        return (
+                          <button
+                            key={`compare-swatch-${color}-${idx}`}
+                            type="button"
+                            onClick={() => {
+                              setSelectedColorIndex(idx)
+                              setActiveImageIndex(Math.min(idx, Math.max(images.length - 1, 0)))
+                            }}
+                            className={classNames(
+                              'rounded-full p-0.5 transition-transform duration-200 hover:-translate-y-0.5 active:scale-[0.98] motion-reduce:transform-none motion-reduce:transition-none',
+                              active ? 'ring-2 ring-stone-900 ring-offset-2 ring-offset-white' : 'ring-1 ring-stone-300 ring-offset-2 ring-offset-white',
+                            )}
+                            aria-label={`Compare color ${color}`}
+                          >
+                            <span
+                              className="block h-8 w-8 rounded-full border border-stone-200"
+                              style={{ backgroundColor: getSwatchHex(color) }}
+                            />
+                          </button>
+                        )
+                      })}
+                    </div>
+
+                    <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {baseColors.map((color, idx) => {
+                        const imageSrc = images[Math.min(idx, Math.max(images.length - 1, 0))] || selectedImage
+                        return (
+                          <div key={`compare-card-${color}-${idx}`} className="space-y-2">
+                            <div className="aspect-[6/9] overflow-hidden bg-stone-100">
+                              <img src={imageSrc} alt={color} className="h-full w-full object-cover" />
+                            </div>
+                            <p className="text-[11px] text-stone-700 text-center">{color}</p>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
                 </div>
               </div>
             )}

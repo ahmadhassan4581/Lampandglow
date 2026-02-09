@@ -247,23 +247,15 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
 
             {bulbOptions.length > 0 && (
               <div className="mt-5 border-t border-stone-200 pt-4">
-                <p className="text-xs font-semibold text-stone-800">Bulb: <span className="font-medium text-stone-600">{selectedBulbOption || 'Included'}</span></p>
+                <p className="text-xs font-semibold text-stone-800">Bulb: <span className="font-medium text-stone-600">{selectedBulbOption || bulbOptions[0]}</span></p>
                 <div className="mt-2 flex items-center gap-2">
-                  {['Included', 'Not Include'].map((opt) => {
-                    const active = selectedBulbOption
-                      ? selectedBulbOption.toLowerCase().includes(opt === 'Included' ? 'with' : 'without')
-                      : opt === 'Included'
+                  {bulbOptions.map((opt) => {
+                    const active = selectedBulbOption ? selectedBulbOption === opt : opt === bulbOptions[0]
                     return (
                       <button
                         key={opt}
                         type="button"
-                        onClick={() => {
-                          if (opt === 'Included') {
-                            setSelectedBulbOption(bulbOptions.find((v) => v.toLowerCase().includes('with')) || bulbOptions[0] || '')
-                          } else {
-                            setSelectedBulbOption(bulbOptions.find((v) => v.toLowerCase().includes('without')) || bulbOptions[1] || '')
-                          }
-                        }}
+                        onClick={() => setSelectedBulbOption(opt)}
                         className={classNames(
                           'px-3 py-2 border text-xs',
                           active ? 'border-stone-900 bg-white' : 'border-stone-300 bg-white text-stone-700 hover:border-stone-500',
@@ -448,7 +440,7 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
                   type="button"
                   onClick={addQuantityToCart}
                   className={classNames(
-                    'h-11 flex-1 border border-stone-900 bg-stone-900 text-white text-xs font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:bg-stone-800 hover:shadow-sm active:scale-[0.99] motion-reduce:transform-none motion-reduce:transition-none',
+                    'h-11 flex-1 border border-stone-900 bg-stone-900 text-white text-xs font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:bg-amber-600 hover:border-amber-600 hover:shadow-sm active:scale-[0.99] motion-reduce:transform-none motion-reduce:transition-none',
                     !inStock && 'opacity-50 cursor-not-allowed',
                   )}
                   disabled={!inStock}
@@ -465,7 +457,7 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
                   navigate('/')
                 }}
                 className={classNames(
-                  'mt-3 h-11 w-full border border-stone-300 bg-white text-xs font-semibold text-stone-900 transition-all duration-200 hover:-translate-y-0.5 hover:bg-stone-50 hover:shadow-sm active:scale-[0.99] motion-reduce:transform-none motion-reduce:transition-none',
+                  'mt-3 h-11 w-full border border-stone-300 bg-white text-xs font-semibold text-stone-900 transition-all duration-200 hover:-translate-y-0.5 hover:bg-amber-50 hover:border-amber-300 hover:text-amber-900 hover:shadow-sm active:scale-[0.99] motion-reduce:transform-none motion-reduce:transition-none',
                   !inStock && 'opacity-50 cursor-not-allowed',
                 )}
                 disabled={!inStock}

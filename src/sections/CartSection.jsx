@@ -45,7 +45,7 @@ export default function CartSection({
           <div className="space-y-4">
             {cart.map((item) => (
               <div
-                key={item.product.id}
+                key={item.id}
                 className="flex gap-3 rounded-2xl border border-stone-200 bg-white p-3 sm:p-4"
               >
                 <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-stone-100">
@@ -62,26 +62,29 @@ export default function CartSection({
                         {item.product.category}
                       </p>
                       <h2 className="text-sm font-semibold text-stone-900">{item.product.name}</h2>
+                      {item.bulbOption && (
+                        <p className="text-[11px] text-stone-600">{item.bulbOption}</p>
+                      )}
                     </div>
                     <button
-                      onClick={() => handleRemoveFromCart(item.product.id)}
+                      onClick={() => handleRemoveFromCart(item.id)}
                       className="text-[11px] text-stone-500 hover:text-stone-800"
                     >
                       Remove
                     </button>
                   </div>
-                  <p className="text-xs text-stone-600">${item.product.price.toFixed(2)} each</p>
+                  <p className="text-xs text-stone-600">${(item.unitPrice ?? item.product.price).toFixed(2)} each</p>
                   <div className="mt-2 flex items-center gap-2">
                     <label className="text-[11px] text-stone-600" htmlFor={`qty-${item.product.id}`}>
                       Qty
                     </label>
                     <input
-                      id={`qty-${item.product.id}`}
+                      id={`qty-${item.id}`}
                       type="number"
                       min={1}
                       value={item.quantity}
                       onChange={(e) =>
-                        handleUpdateCartQuantity(item.product.id, Number(e.target.value) || 1)
+                        handleUpdateCartQuantity(item.id, Number(e.target.value) || 1)
                       }
                       className="w-16 rounded-full border border-stone-300 bg-stone-50 px-2 py-1 text-xs text-stone-800 focus:outline-none focus:ring-1 focus:ring-amber-500"
                     />

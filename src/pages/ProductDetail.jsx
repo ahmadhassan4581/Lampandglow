@@ -85,6 +85,10 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
 
   const productType = product.productType || (product.category === 'Lamps' ? 'Floor lamp' : 'Wood decor')
 
+  const selectedBulb = selectedBulbOption || (bulbOptions[0] ?? '')
+  const bulbPrice = selectedBulb && String(selectedBulb).toLowerCase().includes('with') ? 500 : 0
+  const effectivePrice = product.price + bulbPrice
+
   const formatPKR = (amount) => `Rs.${Number(amount).toLocaleString('en-PK', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -114,8 +118,9 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
   const addQuantityToCart = () => {
     if (!inStock) return
     const count = Math.max(1, Math.min(quantity, Math.max(stock, 1)))
+    const payload = { product, bulbOption: selectedBulb || null, unitPrice: effectivePrice }
     for (let i = 0; i < count; i += 1) {
-      onAddToCart(product)
+      onAddToCart(payload)
     }
   }
 
@@ -217,15 +222,15 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
                 {hasDiscount ? (
                   <>
                     <p className="text-sm sm:text-base font-semibold text-stone-500 line-through">
-                      {formatPKR(compareAtPrice)}
+                        {formatPKR(compareAtPrice)}
                     </p>
                     <p className="text-lg sm:text-xl font-semibold text-rose-600">
-                      {formatPKR(product.price)}
+                        {formatPKR(effectivePrice)}
                     </p>
                   </>
                 ) : (
                   <p className="text-lg sm:text-xl font-semibold text-stone-900">
-                    {formatPKR(product.price)}
+                      {formatPKR(effectivePrice)}
                   </p>
                 )}
               </div>
@@ -383,7 +388,7 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
 
             <div className="mt-5 border-t border-stone-200 pt-4">
               <p className="text-xs text-stone-700">
-                Subtotal: <span className="font-semibold">{formatPKR(product.price * Math.max(1, quantity))}</span>
+                Subtotal: <span className="font-semibold">{formatPKR(effectivePrice * Math.max(1, quantity))}</span>
               </p>
 
               <p className="mt-4 text-xs font-semibold text-stone-700">Quantity:</p>

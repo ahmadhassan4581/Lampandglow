@@ -87,7 +87,7 @@ function App() {
   )
 
   const cartTotal = useMemo(
-    () => cart.reduce((sum, item) => sum + item.quantity * item.product.price, 0),
+    () => cart.reduce((sum, item) => sum + item.quantity * (item.unitPrice ?? item.product.price), 0),
     [cart],
   )
 
@@ -158,32 +158,33 @@ function App() {
     window.localStorage.setItem('lg-theme', theme)
   }, [theme])
 
-  function handleAddToCart(product) {
+  function handleAddToCart(payload) {
+    // payload can be either a product object (legacy) or an object { product, bulbOption, unitPrice }
+    const item = payload.product ? payload : { product: payload }
+    const bulbKey = item.bulbOption ? String(item.bulbOption).replace(/\s+/g, '_') : 'default'
+    const id = `${item.product.id}-${bulbKey}`
+
     setCart((prev) => {
-      const existing = prev.find((item) => item.product.id === product.id)
+      const existing = prev.find((c) => c.id === id)
       if (existing) {
-        return prev.map((item) =>
-          item.product.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item,
-        )
+        return prev.map((c) => (c.id === id ? { ...c, quantity: c.quantity + 1 } : c))
       }
-      return [...prev, { product, quantity: 1 }]
+      return [...prev, { id, product: item.product, quantity: 1, bulbOption: item.bulbOption || null, unitPrice: item.unitPrice ?? item.product.price }]
     })
   }
 
-  function handleUpdateCartQuantity(productId, quantity) {
+  function handleUpdateCartQuantity(itemId, quantity) {
     setCart((prev) =>
       prev
         .map((item) =>
-          item.product.id === productId ? { ...item, quantity } : item,
+          item.id === itemId ? { ...item, quantity } : item,
         )
         .filter((item) => item.quantity > 0),
     )
   }
 
-  function handleRemoveFromCart(productId) {
-    setCart((prev) => prev.filter((item) => item.product.id !== productId))
+  function handleRemoveFromCart(itemId) {
+    setCart((prev) => prev.filter((item) => item.id !== itemId))
   }
 
   function handleSubmitReview(e) {

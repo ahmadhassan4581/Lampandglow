@@ -56,6 +56,7 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
   const [selectedBulbOption, setSelectedBulbOption] = useState('')
   const [selectedColorIndex, setSelectedColorIndex] = useState(0)
   const [isCompareOpen, setIsCompareOpen] = useState(false)
+  const [compareVisibleIndices, setCompareVisibleIndices] = useState([]) // indices of visible images in compare modal
   const [quantity, setQuantity] = useState(1)
   const [activeTab, setActiveTab] = useState('description')
   const [activeImageIndex, setActiveImageIndex] = useState(0)
@@ -91,6 +92,14 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
   const bulbOptions = Array.isArray(product.bulbOptions) ? product.bulbOptions : []
   const sku = product.sku || `LG-${String(product.id).padStart(4, '0')}`
   const baseColors = Array.isArray(product?.productDetails?.baseColors) ? product.productDetails.baseColors : []
+
+  // Initialize compare visible indices when modal opens
+  useEffect(() => {
+    if (isCompareOpen) {
+      setCompareVisibleIndices(baseColors.map((_, i) => i))
+    }
+  }, [isCompareOpen, baseColors])
+
   const safeColorIndex = Math.min(Math.max(selectedColorIndex, 0), Math.max(baseColors.length - 1, 0))
   const selectedColor = baseColors[safeColorIndex] || ''
 
@@ -621,31 +630,36 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
                       key={`compare-swatch-${color}-${idx}`}
                       type="button"
                       onClick={() => {
-                        setSelectedColorIndex(idx)
-                        setActiveImageIndex(Math.min(idx, Math.max(images.length - 1, 0)))
+                         // Toggle visibility
+                         setCompareVisibleIndices(prev => 
+                           prev.includes(idx) ? prev.filter(i => i !== idx) : [...prev, idx]
+                         )
                       }}
                       className={classNames(
                         'rounded-full p-[3px] transition-all duration-200',
-                        active ? 'ring-1 ring-black' : 'hover:ring-1 hover:ring-stone-300',
+                        compareVisibleIndices.includes(idx) ? 'ring-1 ring-black opacity-100' : 'ring-1 ring-stone-200 opacity-40 grayscale hover:opacity-70',
                       )}
-                      aria-label={`Compare color ${color}`}
+                      aria-label={`Toggle visibility for ${color}`}
                     >
                       <div className="h-10 w-10 rounded-full overflow-hidden border border-stone-200 relative">
-                        <img src={patternImg} alt={color} className="h-full w-full object-cover" />
+                         <img src={patternImg} alt={color} className="h-full w-full object-cover" />
                       </div>
                     </button>
                   )
                 })}
               </div>
 
-              {/* Images Grid (Portrait) */}
+              {/* Images Grid (Portrait) - Only show visible */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                {baseColors.map((color, idx) => {
+                {baseColors
+                  .map((color, idx) => ({ color, idx })) // retain original index for image access
+                  .filter(({ idx }) => compareVisibleIndices.includes(idx))
+                  .map(({ color, idx }) => {
                   const imageSrc = images[Math.min(idx, Math.max(images.length - 1, 0))] || selectedImage
                   return (
-                    <div
-                      key={`compare-card-${color}-${idx}`}
-                      className="group cursor-pointer flex flex-col items-center"
+                    <div 
+                      key={`compare-card-${color}-${idx}`} 
+                      className="group cursor-pointer flex flex-col items-center animate-fadeIn"
                       onClick={() => { setSelectedColorIndex(idx); setIsCompareOpen(false); }}
                     >
                       <div className="aspect-[3/4] w-full overflow-hidden bg-stone-50 mb-4 transition-opacity group-hover:opacity-90">

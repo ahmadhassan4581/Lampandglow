@@ -345,17 +345,13 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
                   <p className="text-[13px] font-semibold text-stone-800">
                     Color: <span className="font-normal text-stone-500">{selectedColor}</span>
                   </p>
-                  <button
-                    type="button"
-                    onClick={() => setIsCompareOpen(true)}
-                    className="text-[11px] font-semibold text-stone-500 underline underline-offset-4 hover:text-stone-800 transition-colors"
-                  >
-                    Compare Color
-                  </button>
                 </div>
                 <div className="mt-3 flex items-center gap-3">
                   {baseColors.map((color, idx) => {
                     const active = idx === safeColorIndex
+                    // Pattern image for swatch (mocking pattern by using product image)
+                    const patternImg = images[Math.min(idx, Math.max(images.length - 1, 0))]
+
                     return (
                       <button
                         key={`${color}-${idx}`}
@@ -366,18 +362,40 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
                         }}
                         className={classNames(
                           'rounded-full p-0.5 transition-all duration-200 hover:scale-110',
-                          active ? 'ring-2 ring-stone-900 ring-offset-2 ring-offset-white' : 'ring-1 ring-stone-300 ring-offset-1 ring-offset-white hover:ring-stone-400',
+                          active ? 'ring-2 ring-stone-900 ring-offset-2 ring-offset-white' : 'ring-1 ring-stone-200 ring-offset-1 ring-offset-white hover:ring-stone-400',
                         )}
                         aria-label={`Select color ${color}`}
                       >
-                        <span
-                          className="block h-10 w-10 rounded-full border border-stone-200"
-                          style={{ backgroundColor: getSwatchHex(color) }}
-                        />
+                        <div className="h-10 w-10 rounded-full overflow-hidden border border-stone-200 relative">
+                          {/* Use image pattern if available, else standard color */}
+                          <img src={patternImg} alt={color} className="h-full w-full object-cover" />
+                        </div>
                       </button>
                     )
                   })}
                 </div>
+
+                {/* Compare Color Button with Multi-color Wheel Icon */}
+                <button
+                  type="button"
+                  onClick={() => setIsCompareOpen(true)}
+                  className="mt-4 flex items-center gap-2 text-[13px] font-medium text-stone-700 hover:text-stone-900 hover:underline transition-all"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+                    <circle cx="12" cy="12" r="10" stroke="url(#color-wheel-gradient)" strokeWidth="3" />
+                    <defs>
+                      <linearGradient id="color-wheel-gradient" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stopColor="#f87171" />
+                        <stop offset="20%" stopColor="#fbbf24" />
+                        <stop offset="40%" stopColor="#34d399" />
+                        <stop offset="60%" stopColor="#60a5fa" />
+                        <stop offset="80%" stopColor="#818cf8" />
+                        <stop offset="100%" stopColor="#a78bfa" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  Compare Color
+                </button>
               </div>
             )}
 
@@ -562,35 +580,42 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
         </div>
       </div>
 
-      {/* ═══════════════ COMPARE COLOR MODAL ═══════════════ */}
+      {/* ═══════════════ COMPARE COLOR MODAL (Pixel Match) ═══════════════ */}
       {isCompareOpen && baseColors.length > 0 && (
         <div
-          className="fixed inset-0 z-50 bg-black/50 px-4 py-10 flex items-center justify-center"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm transition-opacity"
           onClick={() => setIsCompareOpen(false)}
           role="presentation"
         >
           <div
-            className="relative w-full max-w-5xl bg-white shadow-2xl rounded-lg overflow-hidden"
+            className="relative w-full max-w-4xl bg-white shadow-2xl animate-fadeIn"
             onClick={(e) => e.stopPropagation()}
             role="dialog"
             aria-modal="true"
             aria-label="Compare Color"
           >
+            {/* Close Button (Black Square Top-Right) */}
             <button
               type="button"
               onClick={() => setIsCompareOpen(false)}
-              className="absolute right-0 top-0 h-10 w-10 grid place-items-center bg-black text-white hover:bg-stone-800 transition-colors"
+              className="absolute right-0 top-0 z-10 flex h-10 w-10 items-center justify-center bg-black text-white hover:bg-stone-800 transition-colors"
               aria-label="Close compare"
             >
-              ×
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M1 13L13 1M1 1l12 12" />
+              </svg>
             </button>
 
-            <div className="p-6 sm:p-8">
-              <h3 className="text-sm font-bold text-stone-900 uppercase tracking-wide">Compare Color</h3>
+            <div className="p-8 sm:p-12">
+              {/* Header Title */}
+              <h3 className="mb-6 text-base font-bold text-stone-900">Compare Color</h3>
 
-              <div className="mt-4 flex items-center gap-3">
+              {/* Swatches Row */}
+              <div className="mb-10 flex items-center gap-4">
                 {baseColors.map((color, idx) => {
                   const active = idx === safeColorIndex
+                  const patternImg = images[Math.min(idx, Math.max(images.length - 1, 0))]
+
                   return (
                     <button
                       key={`compare-swatch-${color}-${idx}`}
@@ -600,29 +625,33 @@ export default function ProductDetail({ products, onAddToCart, reviews }) {
                         setActiveImageIndex(Math.min(idx, Math.max(images.length - 1, 0)))
                       }}
                       className={classNames(
-                        'rounded-full p-0.5 transition-transform duration-200 hover:scale-110',
-                        active ? 'ring-2 ring-stone-900 ring-offset-2' : 'ring-1 ring-stone-300 ring-offset-2',
+                        'rounded-full p-[3px] transition-all duration-200',
+                        active ? 'ring-1 ring-black' : 'hover:ring-1 hover:ring-stone-300',
                       )}
                       aria-label={`Compare color ${color}`}
                     >
-                      <span
-                        className="block h-8 w-8 rounded-full border border-stone-200"
-                        style={{ backgroundColor: getSwatchHex(color) }}
-                      />
+                      <div className="h-10 w-10 rounded-full overflow-hidden border border-stone-200 relative">
+                        <img src={patternImg} alt={color} className="h-full w-full object-cover" />
+                      </div>
                     </button>
                   )
                 })}
               </div>
 
-              <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Images Grid (Portrait) */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 {baseColors.map((color, idx) => {
                   const imageSrc = images[Math.min(idx, Math.max(images.length - 1, 0))] || selectedImage
                   return (
-                    <div key={`compare-card-${color}-${idx}`} className="space-y-2">
-                      <div className="aspect-[3/4] overflow-hidden bg-stone-100">
-                        <img src={imageSrc} alt={color} className="h-full w-full object-cover" />
+                    <div
+                      key={`compare-card-${color}-${idx}`}
+                      className="group cursor-pointer flex flex-col items-center"
+                      onClick={() => { setSelectedColorIndex(idx); setIsCompareOpen(false); }}
+                    >
+                      <div className="aspect-[3/4] w-full overflow-hidden bg-stone-50 mb-4 transition-opacity group-hover:opacity-90">
+                        <img src={imageSrc} alt={color} className="h-full w-full object-cover object-center" />
                       </div>
-                      <p className="text-[11px] text-stone-600 text-center font-medium">{color}</p>
+                      <p className="text-sm font-medium text-stone-600 group-hover:text-stone-900 transition-colors">{color}</p>
                     </div>
                   )
                 })}

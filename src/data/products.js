@@ -53,7 +53,8 @@ Elegance carved in wood. Light sculpted in warmth.`,
       height: "63 inches",
       material: "Solid wood base, linen shade",
       socket: "E26/E27",
-      voltage: "220–240V"
+      voltage: "220–240V",
+      baseColors: ["Light Brown", "Deep Espresso Brown"]
     }
   },
 
@@ -78,7 +79,8 @@ Elegant, lightweight, and durable.`,
       material: "Solid Pine Wood",
       finish: "Dark walnut",
       bulbType: "E27",
-      height: "4.8 feet"
+      height: "4.8 feet",
+      baseColors: ["Dark Walnut", "Natural Pine"]
     }
   },
 
@@ -98,6 +100,7 @@ Elegant, lightweight, and durable.`,
     productType: "Ceiling Lamp",
     description: "Rustic wooden chandelier with modern elegance.",
     productDetails: {
+      baseColors: ["Rustic Brown", "Black"],
       material: "Natural Wood",
       finish: "Walnut Varnish",
       socket: "E27",

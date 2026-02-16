@@ -5,6 +5,7 @@ export default function CartSection({
   handleNavigate,
   handleRemoveFromCart,
   handleUpdateCartQuantity,
+  onCheckout,
 }) {
   return (
     <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
@@ -112,7 +113,11 @@ export default function CartSection({
                 </span>
               </div>
             </div>
-            <button className="mt-2 inline-flex items-center justify-center rounded-full bg-amber-600 px-4 py-2 text-xs font-semibold text-white hover:bg-amber-700">
+            <button
+              type="button"
+              onClick={() => onCheckout?.()}
+              className="mt-2 inline-flex items-center justify-center rounded-full bg-amber-600 px-4 py-2 text-xs font-semibold text-white hover:bg-amber-700"
+            >
               Checkout
             </button>
             <button

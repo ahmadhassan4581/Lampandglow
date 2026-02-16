@@ -9,6 +9,7 @@ import WishlistPage from './pages/WishlistPage.jsx'
 import ReelsPage from './pages/ReelsPage.jsx'
 import AboutPage from './pages/AboutPage.jsx'
 import ContactPage from './pages/ContactPage.jsx'
+import CheckoutPage from './pages/CheckoutPage.jsx'
 
 import HomeSection from './sections/HomeSection.jsx'
 import CategoriesSection from './sections/CategoriesSection.jsx'
@@ -36,11 +37,19 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('')
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const [profile, setProfile] = useState({
-    name: 'Guest',
+    firstName: 'Guest',
+    lastName: '',
+    mobile: '',
     email: 'guest@example.com',
-    address: '',
+    avatarUrl: '/avatar.jpg',
+    bannerUrl: '',
+    addressLine1: '',
+    addressLine2: '',
+    city: '',
+    state: '',
+    postalCode: '',
   })
-  const [orders] = useState([
+  const [orders, setOrders] = useState([
     {
       id: 'ORD-1023',
       date: '2025-11-18',
@@ -54,6 +63,28 @@ function App() {
       items: ['Rustic Evening Coffee Table'],
     },
   ])
+
+  const handlePlaceOrder = (payload) => {
+    const orderId = `ORD-${Math.floor(1000 + Math.random() * 9000)}`
+    const orderDate = new Date().toISOString().slice(0, 10)
+
+    setOrders((prev) => [
+      {
+        id: orderId,
+        date: orderDate,
+        total: payload?.total ?? cartTotal,
+        items: Array.isArray(payload?.items)
+          ? payload.items.map((i) => i?.name).filter(Boolean)
+          : cart.map((i) => i?.product?.name).filter(Boolean),
+        address: payload?.addressLine1,
+        city: payload?.city,
+      },
+      ...prev,
+    ])
+
+    setCart([])
+    return orderId
+  }
 
   const [reviews, setReviews] = useState([
     {
@@ -377,6 +408,7 @@ function App() {
                     handleNavigate={handleNavigate}
                     handleRemoveFromCart={handleRemoveFromCart}
                     handleUpdateCartQuantity={handleUpdateCartQuantity}
+                    onCheckout={() => navigate('/checkout')}
                   />
                 )}
 
@@ -408,6 +440,17 @@ function App() {
           <Route path="/about" element={<AboutPage theme={theme} />} />
           <Route path="/contact" element={<ContactPage theme={theme} />} />
           <Route path="/wishlist" element={<WishlistPage />} />
+          <Route
+            path="/checkout"
+            element={(
+              <CheckoutPage
+                cart={cart}
+                cartTotal={cartTotal}
+                onPlaceOrder={handlePlaceOrder}
+                theme={theme}
+              />
+            )}
+          />
           <Route
             path="/product/:id"
             element={(

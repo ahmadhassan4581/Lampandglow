@@ -10,6 +10,7 @@ import ReelsPage from './pages/ReelsPage.jsx'
 import AboutPage from './pages/AboutPage.jsx'
 import ContactPage from './pages/ContactPage.jsx'
 import CheckoutPage from './pages/CheckoutPage.jsx'
+import OrdersPage from './pages/OrdersPage.jsx'
 
 import HomeSection from './sections/HomeSection.jsx'
 import CategoriesSection from './sections/CategoriesSection.jsx'
@@ -440,6 +441,7 @@ function App() {
           <Route path="/about" element={<AboutPage theme={theme} />} />
           <Route path="/contact" element={<ContactPage theme={theme} />} />
           <Route path="/wishlist" element={<WishlistPage />} />
+          <Route path="/orders" element={<OrdersPage orders={orders} />} />
           <Route
             path="/checkout"
             element={(

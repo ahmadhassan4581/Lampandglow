@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 export default function ProfileSection({ profile, orders, handleProfileChange }) {
   return (
     <section className="bg-gray-100 min-h-screen py-10 px-0">
@@ -220,53 +222,19 @@ export default function ProfileSection({ profile, orders, handleProfileChange })
               My Orders
             </h2>
 
-            {orders.length === 0 ? (
-              <div className="text-sm text-gray-500 bg-gray-50 p-4 rounded-md">
-                You haven’t placed any orders yet.
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {orders.map((order) => (
-                  <div
-                    key={order.id}
-                    className="border border-gray-200 rounded-lg p-4 bg-gray-50 hover:bg-white transition"
-                  >
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                      
-                      <div>
-                        <p className="text-sm font-semibold text-gray-900">
-                          Order #{order.id}
-                        </p>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {order.date}
-                        </p>
-                      </div>
-
-                      <div className="mt-3 sm:mt-0 text-right">
-                        <p className="text-sm font-semibold text-sky-600">
-                          ${order.total.toFixed(2)}
-                        </p>
-                        <span
-                          className={`text-xs px-2 py-1 rounded-full ${
-                            order.status === "Delivered"
-                              ? "bg-green-100 text-green-700"
-                              : order.status === "Pending"
-                              ? "bg-yellow-100 text-yellow-700"
-                              : "bg-gray-200 text-gray-700"
-                          }`}
-                        >
-                          {order.status}
-                        </span>
-                      </div>
-                    </div>
-
-                    <p className="text-xs text-gray-600 mt-3">
-                      Items: {order.items.join(", ")}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            )}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-lg border border-gray-200 bg-gray-50 p-4">
+              <p className="text-sm text-gray-700">
+                {orders.length === 0
+                  ? 'You haven\'t placed any orders yet.'
+                  : `${orders.length} order${orders.length === 1 ? '' : 's'} placed`}
+              </p>
+              <Link
+                to="/orders"
+                className="inline-flex items-center justify-center rounded-full bg-sky-600 px-4 py-2 text-xs font-semibold text-white hover:bg-sky-700"
+              >
+                View all orders
+              </Link>
+            </div>
           </div>
 
         </div>

@@ -1,85 +1,162 @@
-export default function ProfileSection({ orders, profile, handleProfileChange }) {
+export default function ProfileSection({ profile, orders, handleProfileChange }) {
   return (
-    <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
-      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6">
-        <div>
-          <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-stone-900">Profile</h1>
-          <p className="mt-1 text-xs sm:text-sm text-stone-600 max-w-xl">
-            Manage your account details and review your past orders. Changes here stay on this
-            device only.
-          </p>
-        </div>
-      </div>
+    <section className="bg-gray-100 min-h-screen py-10 px-0">
+      <div className="w-full bg-white shadow-sm overflow-hidden border border-gray-200">
+        
+        {/* Cover */}
+        <div className="relative h-44 sm:h-56 bg-gradient-to-r from-slate-700 to-slate-500" />
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1.5fr,1fr] gap-6 items-start">
-        <div className="rounded-2xl border border-stone-200 bg-white p-4 sm:p-5">
-          <h2 className="text-sm font-semibold text-stone-900 mb-3">Account Settings</h2>
-          <div className="space-y-3 text-xs sm:text-sm">
-            <div>
-              <label className="block text-[11px] font-medium text-stone-600 mb-1" htmlFor="name">
-                Name
-              </label>
-              <input
-                id="name"
-                type="text"
-                value={profile.name}
-                onChange={(e) => handleProfileChange('name', e.target.value)}
-                className="w-full rounded-lg border border-stone-300 bg-stone-50 px-3 py-2 text-sm text-stone-800 focus:outline-none focus:ring-1 focus:ring-amber-500"
-              />
-            </div>
-            <div>
-              <label className="block text-[11px] font-medium text-stone-600 mb-1" htmlFor="email">
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                value={profile.email}
-                onChange={(e) => handleProfileChange('email', e.target.value)}
-                className="w-full rounded-lg border border-stone-300 bg-stone-50 px-3 py-2 text-sm text-stone-800 focus:outline-none focus:ring-1 focus:ring-amber-500"
-              />
-            </div>
-            <div>
-              <label
-                className="block text-[11px] font-medium text-stone-600 mb-1"
-                htmlFor="address"
-              >
-                Shipping Address
-              </label>
-              <textarea
-                id="address"
-                rows={3}
-                value={profile.address}
-                onChange={(e) => handleProfileChange('address', e.target.value)}
-                className="w-full rounded-lg border border-stone-300 bg-stone-50 px-3 py-2 text-sm text-stone-800 focus:outline-none focus:ring-1 focus:ring-amber-500"
+        <div className="relative px-6 pb-10">
+          
+          {/* Avatar */}
+          <div className="absolute -top-16 left-6">
+            <div className="w-28 h-28 rounded-full border-4 border-white overflow-hidden shadow-md bg-gray-200">
+              <img
+                src="/avatar.jpg"
+                alt="Profile"
+                className="w-full h-full object-cover"
               />
             </div>
           </div>
-        </div>
 
-        <aside className="rounded-2xl border border-amber-100 bg-amber-50/70 p-4 sm:p-5 text-xs sm:text-sm">
-          <h2 className="text-sm font-semibold text-stone-900 mb-3">Recent Orders</h2>
-          {orders.length === 0 ? (
-            <p className="text-stone-600">No orders yet. Start by placing your first order.</p>
-          ) : (
-            <ul className="space-y-3">
-              {orders.map((order) => (
-                <li
-                  key={order.id}
-                  className="rounded-lg border border-amber-100 bg-white/60 px-3 py-2"
-                >
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="text-xs font-semibold text-stone-900">{order.id}</p>
-                    <p className="text-[11px] text-stone-500">{order.date}</p>
+          {/* Name + Save */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-20">
+            <h1 className="text-xl font-semibold text-gray-900">
+              {profile.firstName} {profile.lastName}
+            </h1>
+
+            <button className="mt-4 sm:mt-0 px-5 py-2 text-sm font-medium text-sky-600 border border-sky-500 rounded-full hover:bg-sky-50 transition">
+              Save changes
+            </button>
+          </div>
+
+          {/* Personal Details */}
+          <div className="mt-10 border-t pt-6">
+            <h2 className="text-sm font-semibold text-gray-800 mb-6">
+              Personal details
+            </h2>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              
+              {/* First Name */}
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-2">
+                  First name
+                </label>
+                <input
+                  type="text"
+                  value={profile.firstName}
+                  onChange={(e) =>
+                    handleProfileChange("firstName", e.target.value)
+                  }
+                  className="w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-sky-500"
+                />
+              </div>
+
+              {/* Last Name */}
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-2">
+                  Last name
+                </label>
+                <input
+                  type="text"
+                  value={profile.lastName}
+                  onChange={(e) =>
+                    handleProfileChange("lastName", e.target.value)
+                  }
+                  className="w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-sky-500"
+                />
+              </div>
+
+              {/* Mobile */}
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-2">
+                  Mobile number
+                </label>
+                <input
+                  type="text"
+                  value={profile.mobile}
+                  onChange={(e) =>
+                    handleProfileChange("mobile", e.target.value)
+                  }
+                  className="w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-sky-500"
+                />
+              </div>
+
+              {/* Email */}
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-2">
+                  Email ID
+                </label>
+                <input
+                  type="email"
+                  value={profile.email}
+                  onChange={(e) =>
+                    handleProfileChange("email", e.target.value)
+                  }
+                  className="w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-sky-500"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* My Orders Section */}
+          <div className="mt-12 border-t pt-6">
+            <h2 className="text-sm font-semibold text-gray-800 mb-6">
+              My Orders
+            </h2>
+
+            {orders.length === 0 ? (
+              <div className="text-sm text-gray-500 bg-gray-50 p-4 rounded-md">
+                You haven’t placed any orders yet.
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {orders.map((order) => (
+                  <div
+                    key={order.id}
+                    className="border border-gray-200 rounded-lg p-4 bg-gray-50 hover:bg-white transition"
+                  >
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                      
+                      <div>
+                        <p className="text-sm font-semibold text-gray-900">
+                          Order #{order.id}
+                        </p>
+                        <p className="text-xs text-gray-500 mt-1">
+                          {order.date}
+                        </p>
+                      </div>
+
+                      <div className="mt-3 sm:mt-0 text-right">
+                        <p className="text-sm font-semibold text-sky-600">
+                          ${order.total.toFixed(2)}
+                        </p>
+                        <span
+                          className={`text-xs px-2 py-1 rounded-full ${
+                            order.status === "Delivered"
+                              ? "bg-green-100 text-green-700"
+                              : order.status === "Pending"
+                              ? "bg-yellow-100 text-yellow-700"
+                              : "bg-gray-200 text-gray-700"
+                          }`}
+                        >
+                          {order.status}
+                        </span>
+                      </div>
+                    </div>
+
+                    <p className="text-xs text-gray-600 mt-3">
+                      Items: {order.items.join(", ")}
+                    </p>
                   </div>
-                  <p className="mt-1 text-[11px] text-stone-600">{order.items.join(', ')}</p>
-                  <p className="mt-1 text-xs font-semibold text-amber-700">${order.total.toFixed(2)}</p>
-                </li>
-              ))}
-            </ul>
-          )}
-        </aside>
+                ))}
+              </div>
+            )}
+          </div>
+
+        </div>
       </div>
     </section>
-  )
+  );
 }
